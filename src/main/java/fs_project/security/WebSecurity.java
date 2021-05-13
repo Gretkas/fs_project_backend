@@ -57,6 +57,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
             .antMatchers(HttpMethod.POST, "/user").permitAll()
             .antMatchers(HttpMethod.POST, "/user/verify/**").permitAll()
             .antMatchers(HttpMethod.OPTIONS).permitAll()
+            //.antMatchers("/users").hasRole("ADMIN") //ROLE_ADMIN
             .anyRequest().authenticated()
             .and()
             .exceptionHandling()
