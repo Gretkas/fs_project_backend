@@ -9,7 +9,17 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import fs_project.model.responseModel.UserResponseModel;
+import javassist.tools.web.BadHttpRequest;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
+@Service
 public class UserService implements UserDetailsService {
     @Autowired
     private UserRepo userRepo;
@@ -36,4 +46,10 @@ public class UserService implements UserDetailsService {
         UserResponseModel userResponseModel = new UserResponseModel(userRequestModel.getUserName());
         return userResponseModel;
     }
+
+    public User getThisUser() throws BadHttpRequest {
+        return null;
+
+    }
+
 }
