@@ -1,11 +1,19 @@
 package fs_project.service;
 
+import fs_project.model.dataEntity.User;
+import fs_project.model.requestModel.UserRequestModel;
 import fs_project.model.responseModel.UserResponseModel;
+import fs_project.repo.UserRepo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 public class UserService implements UserDetailsService {
+    @Autowired
+    private UserRepo userRepo;
+
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         return null;
@@ -14,5 +22,18 @@ public class UserService implements UserDetailsService {
     public UserResponseModel getUser(long id) {
 
         return null;
+    }
+
+    public UserResponseModel createUser(UserRequestModel userRequestModel) {
+        //første bør vi sjekke om den finnes i db fra før av?
+
+        User user = new User();
+        user.setName(userRequestModel.getUserName());
+        user.setPassword(new BCryptPasswordEncoder().encode(userRequestModel.getPassword()));
+
+        userRepo.save(user);
+
+        UserResponseModel userResponseModel = new UserResponseModel(userRequestModel.getUserName());
+        return userResponseModel;
     }
 }
