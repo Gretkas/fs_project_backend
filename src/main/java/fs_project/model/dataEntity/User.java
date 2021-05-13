@@ -15,6 +15,7 @@ import java.util.List;
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // bruk IDENTITY hvis db er seeded ved hver kjoering
+    @Column(name = "user_id")
     private Long id;
 
 

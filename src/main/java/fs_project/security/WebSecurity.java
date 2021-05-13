@@ -25,11 +25,10 @@ import java.util.List;
  * Configuration for spring security. Determines unauthorised entry-points, as well as authorised ones.
  */
 
-/*@Configuration
+@Configuration
 @EnableWebSecurity
-@Order(1)*/
+@Order(2)
 public class WebSecurity extends WebSecurityConfigurerAdapter {
-/*
     private final UserDetailsService userDetailsService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
@@ -66,11 +65,11 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
             .httpBasic()
             .and()
             .formLogin().loginProcessingUrl("/login")
-            .successHandler((request,response,authentication) -> {*//*do nothing*//*})
+            .successHandler((request,response,authentication) -> {})
             .failureHandler(failureHandler)
             .and()
             .logout()
-            .logoutSuccessHandler((request,response,authentication) -> {*//*do nothing*//*})
+            .logoutSuccessHandler((request,response,authentication) -> {})
             .invalidateHttpSession(true)
             .deleteCookies("JSESSIONID");
         ;
@@ -97,6 +96,6 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
         source.registerCorsConfiguration("/**", configuration);
 
         return source;
-    }*/
+    }
 }
 
