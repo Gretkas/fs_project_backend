@@ -1,5 +1,7 @@
 package fs_project.model.responseModel;
 
+import fs_project.model.dataEntity.User;
+
 public class UserResponseModel {
     private String userName;
 
@@ -13,5 +15,9 @@ public class UserResponseModel {
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    public static UserResponseModel convert(User user){
+        return new UserResponseModel(user.getUsername());
     }
 }
