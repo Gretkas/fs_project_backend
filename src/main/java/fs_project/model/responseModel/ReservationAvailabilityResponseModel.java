@@ -4,6 +4,7 @@ import fs_project.model.dataEntity.Reservation;
 
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Set;
 
@@ -12,7 +13,9 @@ public class ReservationAvailabilityResponseModel {
 
     public ReservationAvailabilityResponseModel() {
         this.timetable = new boolean[7][10];
-
+        for (int i = 0; i < LocalDateTime.now().getHour()-7; i++) {
+            timetable[0][i] = true;
+        }
     }
 
     public void addItemToTimeTable(Set<Reservation> itemReservations){

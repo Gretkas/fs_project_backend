@@ -41,8 +41,8 @@ public class Reservation {
     @Column(name="type")
     private ReservationType type;
 
-    public Reservation(long id, User user, LocalDateTime startTime, LocalDateTime endTime, Set<Item> items, ReservationType type) {
-        this.id = id;
+    public Reservation( User user, LocalDateTime startTime, LocalDateTime endTime, Set<Item> items, ReservationType type) {
+
         this.user = user;
         this.startTime = startTime;
         this.endTime = endTime;

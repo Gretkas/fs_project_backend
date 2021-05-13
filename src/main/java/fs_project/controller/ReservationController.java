@@ -2,14 +2,17 @@ package fs_project.controller;
 
 import fs_project.model.dataEntity.Reservation;
 import fs_project.model.requestModel.ReservationAvailabilityRequestModel;
+import fs_project.model.requestModel.ReservationPostRequestModel;
 import fs_project.model.responseModel.ReservationAvailabilityResponseModel;
 import fs_project.model.responseModel.UserResponseModel;
 import fs_project.repo.ReservationRepo;
 import fs_project.service.ReservationService;
+import javassist.tools.web.BadHttpRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.Set;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
@@ -47,7 +50,7 @@ public class ReservationController {
         return ResponseEntity.ok(reservationService.updateReservation(reservation, id));
     }
     @PostMapping(value="", produces = APPLICATION_JSON_VALUE)
-    public ResponseEntity<Reservation> postReservation(@RequestBody Reservation reservation){
+    public ResponseEntity<Reservation> postReservation(@RequestBody ReservationPostRequestModel reservation) throws BadHttpRequest {
         return ResponseEntity.ok(reservationService.createReservation(reservation));
     }
 

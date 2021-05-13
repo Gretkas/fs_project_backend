@@ -3,8 +3,10 @@ package fs_project.service;
 import fs_project.model.dataEntity.Item;
 import fs_project.model.dataEntity.Reservation;
 import fs_project.model.requestModel.ReservationAvailabilityRequestModel;
+import fs_project.model.requestModel.ReservationPostRequestModel;
 import fs_project.model.responseModel.ReservationAvailabilityResponseModel;
 import fs_project.repo.ReservationRepo;
+import javassist.tools.web.BadHttpRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,12 +17,17 @@ public class ReservationService {
     @Autowired
     ReservationRepo reservationRepo;
 
+    @Autowired
+    UserService userService;
+
     public Reservation getReservation(long id) {
         return null;
     }
 
-    public Reservation createReservation(Reservation reservation) {
-        return null;
+    public Reservation createReservation(ReservationPostRequestModel reservationPostRequestModel) throws BadHttpRequest {
+        Reservation r = reservationPostRequestModel.convert(userService.getThisUser());
+        reservationRepo.save(r);
+        return r;
     }
 
     public Reservation updateReservation(Reservation reservation, long id) {
