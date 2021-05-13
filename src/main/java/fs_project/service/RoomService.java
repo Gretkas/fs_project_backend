@@ -13,7 +13,7 @@ public class RoomService {
     RoomRepo roomRepo;
 
     public Room getRoom(long id) {
-        return null;
+        return roomRepo.getOne(id);
     }
 
     public Room createRoom(Room reservation) {
