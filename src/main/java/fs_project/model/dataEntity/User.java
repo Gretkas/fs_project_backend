@@ -2,9 +2,11 @@ package fs_project.model.dataEntity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -15,21 +17,34 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY) // bruk IDENTITY hvis db er seeded ved hver kjoering
     private Long id;
 
-    @Transient
-    private List<GrantedAuthority> authorities = List.of();
 
     @Column(name = "user_name")
     private String userName;
     private String password;
+    private String role;
 
-    public User(String userName, String password) {
+    public User(String userName, String password, String role) {
         this.userName = userName;
         this.password = password;
+        this.role = role;
+    }
+    public User() {}
+
+    public String getUserName() {
+        return userName;
     }
 
-    public User() {
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
     public Long getId() {
         return id;
     }
@@ -44,7 +59,9 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return authorities;
+        List<GrantedAuthority> list = new ArrayList<>();
+        list.add(new SimpleGrantedAuthority("ROLE_" + role));
+        return list;
     }
 
     public String getPassword() {
@@ -53,10 +70,6 @@ public class User implements UserDetails {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public void setAuthorities(List<GrantedAuthority> authorities) {
-        this.authorities = authorities;
     }
 
     @Override

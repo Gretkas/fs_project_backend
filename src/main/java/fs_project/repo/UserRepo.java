@@ -6,21 +6,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import java.util.Set;
+import java.util.Optional;
 
 @Repository
 public interface UserRepo extends JpaRepository<User, Long> {
-
-
     @Query(
-            value="SELECT * FROM User WHERE user_id = ?1",
+            value="SELECT * FROM User WHERE user_name = ?1",
             nativeQuery = true
     )
-    User getUser(long id);
-
-    @Query(
-            value="SELECT * FROM User",
-            nativeQuery = true
-    )
-    Set<User> getUsers();
+    Optional<User> getUserByName(String userName);
 }

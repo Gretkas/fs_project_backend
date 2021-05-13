@@ -6,16 +6,17 @@ import javassist.tools.web.BadHttpRequest;
 public class UserRequestModel {
     private String userName;
     private String password;
+    private String role;
 
     public UserRequestModel() {}
 
     public User convert() throws BadHttpRequest {
         validate();
-        return new User(userName,password);
+        return new User(userName,password,role);
     }
 
     private void validate() throws BadHttpRequest {
-        if(userName == null || userName.isBlank() || password == null || password.isBlank()) throw new BadHttpRequest(new Exception("Unvalid information"));
+        if(userName == null || userName.isBlank() || password == null || password.isBlank() || role == null || role.isBlank()) throw new BadHttpRequest(new Exception("Invalid information"));
     }
 
     public String getUserName() {
@@ -33,4 +34,13 @@ public class UserRequestModel {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
 }

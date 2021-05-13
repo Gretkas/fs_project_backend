@@ -29,19 +29,22 @@ public class UserService implements UserDetailsService {
     private UserRepo userRepo;
 
     @Override
-    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        return null;
+    public User loadUserByUsername(String username) throws UsernameNotFoundException  {
+        User user = userRepo.getUserByName(username).orElse(null);
+        if (user == null) {
+            throw new UsernameNotFoundException(username);
+        }
+        return user;
     }
 
     public UserResponseModel getUser(long id) {
-        return UserResponseModel.convert(userRepo.getUser(id));
+        return UserResponseModel.convert(userRepo.getOne(id));
     }
 
     public UserResponseModel createUser(UserRequestModel userRequestModel) throws BadHttpRequest {
-        //første bør vi sjekke om den finnes i db fra før av?
+        if(userRepo.getUserByName(userRequestModel.getUserName()).orElse(null) != null) throw new BadHttpRequest(new Exception("User already exits"));
 
         User user = userRequestModel.convert();
-
         userRepo.save(user);
 
         UserResponseModel userResponseModel = new UserResponseModel(userRequestModel.getUserName());
@@ -54,7 +57,7 @@ public class UserService implements UserDetailsService {
     }
 
     public Set<UserResponseModel> getUsers() {
-        Set<User> users = userRepo.getUsers();
+        Set<User> users = (Set<User>) userRepo.findAll();
         return users.stream().map(UserResponseModel::convert).collect(Collectors.toSet());
     }
 
@@ -66,8 +69,9 @@ public class UserService implements UserDetailsService {
         //setter nye verdier på feltene
         currentUser.setName(newUser.getUsername());
         currentUser.setPassword(newUser.getPassword());
-        currentUser.setAuthorities((List<GrantedAuthority>) newUser.getAuthorities());
+        currentUser.setRole(newUser.getRole());
 
         userRepo.save(currentUser);
+        return UserResponseModel.convert(currentUser);
     }
 }
