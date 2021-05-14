@@ -4,6 +4,7 @@ import fs_project.model.dataEntity.Reservation;
 import fs_project.model.requestModel.ReservationAvailabilityRequestModel;
 import fs_project.model.requestModel.ReservationPostRequestModel;
 import fs_project.model.responseModel.ReservationAvailabilityResponseModel;
+import fs_project.model.responseModel.ReservationResponseModel;
 import fs_project.model.responseModel.UserResponseModel;
 import fs_project.repo.ReservationRepo;
 import fs_project.service.ReservationService;
@@ -18,7 +19,7 @@ import java.util.Set;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
-@RequestMapping("reservations")
+@RequestMapping("/reservations")
 public class ReservationController {
 
     @Autowired
@@ -36,8 +37,13 @@ public class ReservationController {
     }
 
     @GetMapping(value="", produces = APPLICATION_JSON_VALUE)
-    public ResponseEntity<Set<Reservation>> getReservations(){
+    public ResponseEntity<Set<ReservationResponseModel>> getReservations(){
         return ResponseEntity.ok(reservationService.getReservations());
+    }
+
+    @GetMapping(value="/history", produces = APPLICATION_JSON_VALUE)
+    public ResponseEntity<Set<ReservationResponseModel>> getReservationHistory(){
+        return ResponseEntity.ok(reservationService.getReservationHistory());
     }
 
     @GetMapping(value="/user/{id}", produces = APPLICATION_JSON_VALUE)

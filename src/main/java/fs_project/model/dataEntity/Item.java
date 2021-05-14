@@ -12,7 +12,7 @@ public class Item {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long itemId;
 
-    @ManyToOne
+    @ManyToOne(cascade=CascadeType.ALL)
     @JoinColumn(
             name="room_id",
             updatable = true
@@ -39,7 +39,7 @@ public class Item {
         this.itemId = itemId;
     }
 
-    public Room getRoomId() {
+    public Room getRoom() {
         return roomId;
     }
 

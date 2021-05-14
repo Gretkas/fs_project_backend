@@ -1,8 +1,11 @@
 package fs_project;
 
+import fs_project.model.Attributes.ReservationType;
 import fs_project.model.dataEntity.Item;
+import fs_project.model.dataEntity.Reservation;
 import fs_project.model.dataEntity.Room;
 import fs_project.model.dataEntity.User;
+import fs_project.repo.ItemRepo;
 import fs_project.repo.ReservationRepo;
 import fs_project.repo.RoomRepo;
 import fs_project.repo.UserRepo;
@@ -14,6 +17,7 @@ import javax.annotation.PostConstruct;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -28,6 +32,12 @@ public class TestData {
     private ReservationRepo reservationRepo;
 
     @Autowired
+    ItemRepo itemRepo;
+
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
+
+    @Autowired
     private RoomRepo roomRepo;
 
     @Autowired
@@ -37,7 +47,7 @@ public class TestData {
     private void postConstruct() {
         if (!TESTDATA_ENABLED) return;
 
-        User user1 = new User("admin","admin_password","ADMIN");
+        User user1 = new User("admin","admin","ADMIN");
         User user2 = new User("test1","password","USER");
         User user3 = new User("test2","password","USER");
         User user4 = new User("test3","password","USER");
@@ -58,14 +68,28 @@ public class TestData {
         koke.setName("Koke");
         koke.setRoomId(room1);
 
-        Set<Item> ting1 = new HashSet<>();
+        List<Item> ting1 = new ArrayList<>();
         ting1.add(koke);
         room1.setItems(ting1);
 
-        Set<Item> ting2 = new HashSet<>();
+        List<Item> ting2 = new ArrayList<>();
         ting2.add(pc);
         room2.setItems(ting2);
 
+
+        Reservation reservation = new Reservation(
+                user1,
+                LocalDateTime.parse("2021-05-17 11:00", formatter),
+                LocalDateTime.parse("2021-05-17 14:00", formatter),
+                ting1,
+                ReservationType.RESERVATION
+        );
+
+        itemRepo.save(koke);
+        itemRepo.save(pc);
+
+        roomRepo.save(room1);
+        roomRepo.save(room2);
 
         userRepo.save(user1);
         userRepo.save(user2);
@@ -73,5 +97,6 @@ public class TestData {
         userRepo.save(user4);
         userRepo.save(user5);
         userRepo.save(user6);
+        reservationRepo.save(reservation);
     }
 }

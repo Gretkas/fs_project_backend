@@ -7,12 +7,13 @@ import fs_project.model.dataEntity.User;
 import javassist.tools.web.BadHttpRequest;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 public class ReservationPostRequestModel {
     private LocalDateTime startTime;
     private LocalDateTime endTime;
-    private Set<Item> items;
+    private List<Item> items;
     private ReservationType type;
 
 
@@ -44,11 +45,11 @@ public class ReservationPostRequestModel {
         this.endTime = endTime;
     }
 
-    public Set<Item> getItems() {
+    public List<Item> getItems() {
         return items;
     }
 
-    public void setItems(Set<Item> items) {
+    public void setItems(List<Item> items) {
         this.items = items;
     }
 
