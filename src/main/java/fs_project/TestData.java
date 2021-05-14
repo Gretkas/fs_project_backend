@@ -65,5 +65,13 @@ public class TestData {
         Set<Item> ting2 = new HashSet<>();
         ting2.add(pc);
         room2.setItems(ting2);
+
+
+        userRepo.save(user1);
+        userRepo.save(user2);
+        userRepo.save(user3);
+        userRepo.save(user4);
+        userRepo.save(user5);
+        userRepo.save(user6);
     }
 }
