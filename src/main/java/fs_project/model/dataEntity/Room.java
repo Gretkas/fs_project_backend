@@ -1,6 +1,7 @@
 package fs_project.model.dataEntity;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -13,24 +14,24 @@ public class Room {
     private long id;
 
     private String name;
-    @ManyToMany
+    @OneToMany(cascade=CascadeType.ALL)
     @JoinTable(
-            name="section_node",
+            name="room_item",
             joinColumns = @JoinColumn(name = "room_id"),
             inverseJoinColumns = @JoinColumn(name = "item_id")
     )
-    private Set<Item> items;
+    private List<Item> items;
 
-    @ManyToMany
+    @ManyToMany(cascade=CascadeType.ALL)
     @JoinTable(
-            name="section_node",
+            name="room_section",
             joinColumns = @JoinColumn(name = "room_id"),
             inverseJoinColumns = @JoinColumn(name = "section_id")
     )
-    private Set<Section> sections;
+    private List<Section> sections;
 
 
-    public Room(long id, String name, Set<Item> items, Set<Section> sections) {
+    public Room(long id, String name, List<Item> items, List<Section> sections) {
         this.id = id;
         this.name = name;
         this.items = items;
@@ -58,19 +59,19 @@ public class Room {
         this.name = name;
     }
 
-    public Set<Item> getItems() {
+    public List<Item> getItems() {
         return items;
     }
 
-    public void setItems(Set<Item> items) {
+    public void setItems(List<Item> items) {
         this.items = items;
     }
 
-    public Set<Section> getSections() {
+    public List<Section> getSections() {
         return sections;
     }
 
-    public void setSections(Set<Section> sections) {
+    public void setSections(List<Section> sections) {
         this.sections = sections;
     }
 }

@@ -5,6 +5,7 @@ import fs_project.model.Attributes.ReservationType;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -15,8 +16,8 @@ public class Reservation {
     @Column(name = "reservation_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @OneToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     private User user;
 
 
@@ -36,12 +37,12 @@ public class Reservation {
             joinColumns = @JoinColumn(name = "reservation_id"),
             inverseJoinColumns = @JoinColumn(name = "item_id")
     )
-    private Set<Item> items;
+    private List<Item> items;
 
     @Column(name="type")
     private ReservationType type;
 
-    public Reservation( User user, LocalDateTime startTime, LocalDateTime endTime, Set<Item> items, ReservationType type) {
+    public Reservation( User user, LocalDateTime startTime, LocalDateTime endTime, List<Item> items, ReservationType type) {
 
         this.user = user;
         this.startTime = startTime;
@@ -95,11 +96,11 @@ public class Reservation {
         this.endTime = endTime;
     }
 
-    public Set<Item> getNodes() {
+    public List<Item> getItems() {
         return items;
     }
 
-    public void setNodes(Set<Item> nodes) {
+    public void setNodes(List<Item> nodes) {
         this.items = nodes;
     }
 

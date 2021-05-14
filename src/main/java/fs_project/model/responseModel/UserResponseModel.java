@@ -4,10 +4,15 @@ import fs_project.model.dataEntity.User;
 
 public class UserResponseModel {
     private String userName;
+    private String role;
 
-    public UserResponseModel(String userName) {
-        this.userName = userName;
+    public UserResponseModel(User user) {
+
+        this.userName = user.getUserName();
+        this.role = user.getRole();
     }
+
+
 
     public String getUserName() {
         return userName;
@@ -17,7 +22,11 @@ public class UserResponseModel {
         this.userName = userName;
     }
 
-    public static UserResponseModel convert(User user){
-        return new UserResponseModel(user.getUsername());
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }

@@ -38,7 +38,7 @@ public class UserService implements UserDetailsService {
     }
 
     public UserResponseModel getUser(long id) {
-        return UserResponseModel.convert(userRepo.getOne(id));
+        return new UserResponseModel(userRepo.getOne(id));
     }
 
     public UserResponseModel createUser(UserRequestModel userRequestModel) throws BadHttpRequest {
@@ -47,18 +47,20 @@ public class UserService implements UserDetailsService {
         User user = userRequestModel.convert();
         userRepo.save(user);
 
-        UserResponseModel userResponseModel = new UserResponseModel(userRequestModel.getUserName());
+        UserResponseModel userResponseModel = new UserResponseModel(user);
         return userResponseModel;
     }
 
-    public User getThisUser() throws BadHttpRequest {
-        return null;
-
+    public User getThisUser() {
+        return loadUserByUsername(SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getName());
     }
 
     public Set<UserResponseModel> getUsers() {
         Set<User> users = (Set<User>) userRepo.findAll();
-        return users.stream().map(UserResponseModel::convert).collect(Collectors.toSet());
+        return users.stream().map(UserResponseModel::new).collect(Collectors.toSet());
     }
 
     public UserResponseModel changeUser(UserRequestModel userRequestModel, long id) throws Exception {
@@ -72,6 +74,6 @@ public class UserService implements UserDetailsService {
         currentUser.setRole(newUser.getRole());
 
         userRepo.save(currentUser);
-        return UserResponseModel.convert(currentUser);
+        return new UserResponseModel(currentUser);
     }
 }

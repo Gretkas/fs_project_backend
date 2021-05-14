@@ -1,7 +1,7 @@
 package fs_project.model.dataEntity;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.List;
 
 
 @Entity
@@ -17,13 +17,13 @@ public class Section {
 
     @ManyToMany
     @JoinTable(
-            name="section_node",
+            name="section_item",
             joinColumns = @JoinColumn(name = "section_id"),
             inverseJoinColumns = @JoinColumn(name = "item_id")
     )
-    private Set<Item> items;
+    private List<Item> items;
 
-    public Section(long id, String name, Set<Item> items) {
+    public Section(long id, String name, List<Item> items) {
         this.id = id;
         this.name = name;
         this.items = items;
@@ -49,11 +49,11 @@ public class Section {
         this.name = name;
     }
 
-    public Set<Item> getItems() {
+    public List<Item> getItems() {
         return items;
     }
 
-    public void setItems(Set<Item> items) {
+    public void setItems(List<Item> items) {
         this.items = items;
     }
 }
