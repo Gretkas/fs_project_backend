@@ -7,7 +7,7 @@ import fs_project.mapping.dto.ReservationRequestDto;
 import fs_project.model.Attributes.ReservationType;
 import fs_project.model.dataEntity.Item;
 import fs_project.model.dataEntity.Reservation;
-import fs_project.model.responseModel.ReservationAvailabilityResponseModel;
+import fs_project.model.dataEntity.Room;
 import fs_project.service.UserService;
 import org.mapstruct.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,16 +31,19 @@ public abstract class ReservationMapper {
             @Mapping(target = "user", expression = "java(userService.getThisUser())"),
             @Mapping(target = "id", ignore = true) //
     })
-    abstract Reservation reservationRequestToReservation(
+    public abstract Reservation reservationRequestToReservation(
             ReservationRequestDto reservationRequest, @Context ReservationType reservationType);
 
-    abstract Item itemReservationDtoToItem(ItemReservationDto itemReservationDto);
+    public abstract Item itemReservationDtoToItem(ItemReservationDto itemReservationDto);
 
-    abstract Set<Item> itemReservationSetToItemSet(Set<ItemReservationDto> itemReservationSet);
+    @Mapping(target = "id", source = ".")
+    public abstract Room roomIdToRoom(Long roomId);
 
-    abstract ItemReservationDto itemToItemReservationDto(Item item);
+    public abstract Set<Item> itemReservationSetToItemSet(Set<ItemReservationDto> itemReservationSet);
 
-    abstract Set<ItemReservationDto> itemSetToItemReservationSet(Set<Item> itemSet);
+    public abstract ItemReservationDto itemToItemReservationDto(Item item);
+
+    public abstract Set<ItemReservationDto> itemSetToItemReservationSet(Set<Item> itemSet);
 
     /**
      * Method that is called whenever mapping to Reservation,
@@ -50,7 +53,7 @@ public abstract class ReservationMapper {
      * @param reservationType if provided, this method will be called
      */
     @AfterMapping
-    void finalizeReservation(
+    public void finalizeReservation(
             @MappingTarget Reservation reservation,
             @Context ReservationType reservationType
             ) {
