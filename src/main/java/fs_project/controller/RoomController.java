@@ -1,5 +1,6 @@
 package fs_project.controller;
 
+import fs_project.mapping.dto.RoomDTO;
 import fs_project.model.dataEntity.Reservation;
 import fs_project.model.dataEntity.Room;
 import fs_project.service.ReservationService;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Set;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
@@ -21,12 +23,12 @@ public class RoomController {
 
 
     @GetMapping(value="/{id}", produces = APPLICATION_JSON_VALUE)
-    public ResponseEntity<Room> getRoom(@PathVariable long id){
+    public ResponseEntity<RoomDTO> getRoom(@PathVariable long id){
         return ResponseEntity.ok(roomService.getRoom(id));
     }
 
     @GetMapping(value="", produces = APPLICATION_JSON_VALUE)
-    public ResponseEntity<Set<Room>> getRooms(){
+    public ResponseEntity<List<RoomDTO>> getRooms(){
         return ResponseEntity.ok(roomService.getRooms());
     }
 
