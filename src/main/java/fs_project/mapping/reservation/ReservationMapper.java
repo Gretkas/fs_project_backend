@@ -2,8 +2,13 @@ package fs_project.mapping.reservation;
 
 import fs_project.exceptions.FatalException;
 import fs_project.exceptions.ResponseErrStatus;
+
+
+import fs_project.mapping.room.RoomMapper;
+
 import fs_project.mapping.dto.*;
 import fs_project.mapping.user.UserMapper;
+
 import fs_project.model.Attributes.ReservationType;
 import fs_project.model.dataEntity.Item;
 import fs_project.model.dataEntity.Reservation;
@@ -22,8 +27,13 @@ import java.util.Set;
          * Policy for each unmapped target's field(s) in any of
          * the class's methods.
          */
-        unmappedTargetPolicy = ReportingPolicy.WARN, // todo change to ignore in production stage
-        uses = {UserMapper.class}
+
+        unmappedTargetPolicy = ReportingPolicy.WARN, // todo change to ignore in production stage,
+        uses = {RoomMapper.class, UserMapper.class}
+
+
+
+
 )
 public abstract class ReservationMapper {
 
@@ -50,8 +60,6 @@ public abstract class ReservationMapper {
 
     public abstract Item itemReservationDtoToItem(ItemReservationDto itemReservationDto);
 
-    @Mapping(target = "id", source = ".")
-    public abstract Room roomIdToRoom(Long roomId);
 
     public abstract List<Item> itemReservationSetToItemSet(List<ItemReservationDto> itemReservationSet);
 
