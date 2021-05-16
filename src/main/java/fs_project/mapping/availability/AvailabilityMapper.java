@@ -14,7 +14,8 @@ import java.util.Set;
 public abstract class AvailabilityMapper {
 
     @IterableMapping(elementTargetType = ItemAvailability.class)
-    public abstract Set<ItemAvailability> availabilityRequestToItemsAvailability(Set<ItemReservationDto> availabilityReqItemSet);
+    public abstract Set<ItemAvailability> availabilityRequestToItemsAvailability
+            (Set<ItemReservationDto> availabilityReqItemSet);
 
     public Long itemDtoToItemId(ItemReservationDto itemDto) {
         if (itemDto == null) return null;

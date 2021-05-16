@@ -10,7 +10,7 @@ import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
-import java.util.Set;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -27,7 +27,10 @@ public class ReservationRequestDto {
 
     @NotNull
     @NotEmpty
-    private Set<ItemReservationDto> items;
+    private List<ItemReservationDto> items;
+
+    @NotNull
+    private ReservationType type;
 
     @AssertTrue
     public boolean isValidDateRange() {
