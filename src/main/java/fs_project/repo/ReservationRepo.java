@@ -23,4 +23,8 @@ public interface ReservationRepo extends JpaRepository<Reservation, Long> {
     Set<Reservation> getItemReservationsNextSevenDays(long itemId);
 
     Set<Reservation> getReservationsByUser(User user);
+
+    // TODO implement
+    @Query(value = "SELECT * from reservation", nativeQuery = true)
+    Reservation saveMaintenanceReservation(Reservation reservation);
 }

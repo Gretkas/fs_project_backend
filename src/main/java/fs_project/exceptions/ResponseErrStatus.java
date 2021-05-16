@@ -4,9 +4,19 @@ import org.springframework.http.HttpStatus;
 
 public enum ResponseErrStatus {
 
-    //RESERVATION
+    // GENERIC
+    SOMETHING_WENT_WRONG(HttpStatus.I_AM_A_TEAPOT),
+
+    // DB
+    DB_SAVE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR),
+
+    // MAPPING
+    UNEXPECTED_MAPPING_FAIL(HttpStatus.INTERNAL_SERVER_ERROR),
+
+    // RESERVATION
     FORBIDDEN_ROLE(HttpStatus.FORBIDDEN),
-    USER_NOT_FOUND(HttpStatus.UNAUTHORIZED)
+    USER_NOT_FOUND(HttpStatus.UNAUTHORIZED),
+    ILLEGAL_RESERVATION_TYPE(HttpStatus.BAD_REQUEST)
 
 
     ;

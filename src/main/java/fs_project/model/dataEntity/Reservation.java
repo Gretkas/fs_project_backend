@@ -15,7 +15,7 @@ public class Reservation {
     @Id
     @Column(name = "reservation_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     private User user;
@@ -64,11 +64,11 @@ public class Reservation {
         return timeTable;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
