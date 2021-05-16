@@ -39,8 +39,9 @@ public class ReservationService {
         return null;
     }
 
-    public Reservation deleteReservation(long id) {
-        return null;
+    public boolean deleteReservation(long id) {
+        reservationRepo.deleteById(id);
+        return true;
     }
 
     public Set<ReservationResponseModel> getReservations() {

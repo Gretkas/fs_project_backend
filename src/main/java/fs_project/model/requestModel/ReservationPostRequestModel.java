@@ -15,11 +15,12 @@ public class ReservationPostRequestModel {
     private LocalDateTime endTime;
     private List<Item> items;
     private ReservationType type;
+    private String sectionName;
 
 
     public Reservation convert(User u) throws BadHttpRequest {
         validate();
-        return new Reservation(u, startTime, endTime, items, type);
+        return new Reservation(u, startTime, endTime, items, type, sectionName);
     }
 
     private void validate() throws BadHttpRequest {
@@ -59,5 +60,13 @@ public class ReservationPostRequestModel {
 
     public void setType(ReservationType type) {
         this.type = type;
+    }
+
+    public String getSectionName() {
+        return sectionName;
+    }
+
+    public void setSectionName(String sectionName) {
+        this.sectionName = sectionName;
     }
 }

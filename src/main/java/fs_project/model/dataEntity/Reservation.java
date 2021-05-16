@@ -39,11 +39,14 @@ public class Reservation {
     )
     private List<Item> items;
 
+    @Column(name = "section_name")
+    private String sectionName;
+
     @Column(name="type")
     private ReservationType type;
 
-    public Reservation( User user, LocalDateTime startTime, LocalDateTime endTime, List<Item> items, ReservationType type) {
-
+    public Reservation( User user, LocalDateTime startTime, LocalDateTime endTime, List<Item> items, ReservationType type, String sectionName) {
+        this.sectionName = sectionName;
         this.user = user;
         this.startTime = startTime;
         this.endTime = endTime;
@@ -51,9 +54,7 @@ public class Reservation {
         this.type = type;
     }
 
-    public Reservation() {
-
-    }
+    public Reservation() {}
 
     public boolean[] toTimeTable(){
         boolean[] timeTable = new boolean[10];
@@ -100,7 +101,7 @@ public class Reservation {
         return items;
     }
 
-    public void setNodes(List<Item> nodes) {
+    public void setItems(List<Item> nodes) {
         this.items = nodes;
     }
 
@@ -110,5 +111,25 @@ public class Reservation {
 
     public void setType(ReservationType type) {
         this.type = type;
+    }
+
+    public String getSectionName() {
+        return sectionName;
+    }
+
+    public void setSectionName(String sectionName) {
+        this.sectionName = sectionName;
+    }
+
+    @Override
+    public String toString() {
+        return "Reservation{" +
+                "id=" + id +
+                ", user=" + user +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
+                ", items=" + items +
+                ", type=" + type +
+                '}';
     }
 }

@@ -82,7 +82,8 @@ public class TestData {
                 LocalDateTime.parse("2021-05-17 11:00", formatter),
                 LocalDateTime.parse("2021-05-17 14:00", formatter),
                 ting1,
-                ReservationType.RESERVATION
+                ReservationType.RESERVATION,
+                "Kokeseksjon"
         );
 
         itemRepo.save(koke);

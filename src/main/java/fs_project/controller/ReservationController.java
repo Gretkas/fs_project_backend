@@ -61,7 +61,7 @@ public class ReservationController {
     }
 
     @DeleteMapping(value="/{id}", produces = APPLICATION_JSON_VALUE)
-    public ResponseEntity<Reservation> deleteReservation(@PathVariable long id){
+    public ResponseEntity<Boolean> deleteReservation(@PathVariable long id){
         return ResponseEntity.ok(reservationService.deleteReservation(id));
     }
 
