@@ -38,6 +38,6 @@ public abstract class ReservationResponse {
 
     @AssertTrue
     final public boolean isValidDateRange() {
-        return startTime.isBefore(endTime);
+        return startTime.isBefore(endTime) || startTime.isEqual(endTime);
     }
 }

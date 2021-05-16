@@ -9,6 +9,7 @@ public enum ResponseErrStatus {
 
     // DB
     DB_SAVE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR),
+    DB_UPDATE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR),
 
     // MAPPING
     UNEXPECTED_MAPPING_FAIL(HttpStatus.INTERNAL_SERVER_ERROR),

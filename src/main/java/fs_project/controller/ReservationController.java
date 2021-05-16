@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.security.Principal;
 import java.util.Set;
@@ -59,7 +60,7 @@ public class ReservationController {
         return ResponseEntity.ok(reservationService.updateReservation(reservation, id));
     }
     @PostMapping(value="", produces = APPLICATION_JSON_VALUE)
-    public ResponseEntity<ReservationResponse> postReservation(@NotNull @RequestBody ReservationRequestDto reservation) throws BadHttpRequest {
+    public ResponseEntity<ReservationResponse> postReservation(@NotNull @Valid @RequestBody ReservationRequestDto reservation) throws BadHttpRequest {
         return ResponseEntity.ok(reservationService.createReservation(reservation));
     }
 

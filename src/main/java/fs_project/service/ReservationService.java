@@ -23,6 +23,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.validation.ConstraintViolationException;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Set;
@@ -50,10 +51,10 @@ public class ReservationService {
 //        return r;
 //    }
 
-    public ReservationResponse createReservation(@NotNull ReservationRequestDto reservationPostRequestModel) throws BadHttpRequest {
-        Reservation r = reservationMapper.reservationRequestToReservation(reservationPostRequestModel);
-        User user;
-        ReservationResponse res;
+    public ReservationResponse createReservation(@NotNull @Valid ReservationRequestDto reservationPostRequestModel) throws BadHttpRequest {
+        @Valid Reservation r = reservationMapper.reservationRequestToReservation(reservationPostRequestModel);
+        @Valid User user;
+        @Valid ReservationResponse res;
         try {
             user = userService.getThisUser();
             r.setUser(user);
@@ -62,12 +63,26 @@ public class ReservationService {
             throw new FatalException(ResponseErrStatus.USER_NOT_FOUND, "User session not recognized", e);
         }
 
-        r = saveReservation(r);
+        r = reservationRepo.save(r);
         if (r.getId() == 0) // save failed due to db problems, or validation fail (foreign key etc)
             throw new ServerErrorException(ResponseErrStatus.DB_SAVE_FAILED, "Could not complete reservation");
 
         try {
-            res = mapReservationResponse(r);
+            if (r.getType() == ReservationType.MAINTENANCE) {
+                @NotNull @Valid Set<Reservation> affectedReservations;
+                try {
+                    affectedReservations = updateReservationAffectedBy(r);
+                } catch (Exception e) {
+                    throw new ServerErrorException
+                            (ResponseErrStatus.DB_UPDATE_FAILED,
+                                    "Could not complete maintenance reservation, " +
+                                            "cause: failed to update affected reservations", e);
+                }
+                String result = affectedReservations.size() + " reservations were affected";
+                res = reservationMapper.reservationToMaintenanceResponse(r, result);
+            } else {
+                res = reservationMapper.reservationToStandardResponse(r);
+            }
         } catch (Exception e) {
             throw new ServerErrorException(ResponseErrStatus.UNEXPECTED_MAPPING_FAIL, "Could not complete reservation", e);
         }
@@ -75,28 +90,34 @@ public class ReservationService {
         return res;
     }
 
-    // TODO remove after mapstruct decorator is implemented
-    private ReservationResponse mapReservationResponse(Reservation reservation) {
-        if (reservation.getType() == ReservationType.RESERVATION) {
-            return reservationMapper.reservationToStandardResponse(reservation);
-        } else if (reservation.getType() == ReservationType.MAINTENANCE) {
-            return reservationMapper.reservationToMaintenanceResponse(reservation, "Ok"); // todo implement result
-        } else {
-            throw new ServerErrorException
-                    (ResponseErrStatus.DB_SAVE_FAILED, "Could not complete reservation");
-        }
+    private Set<Reservation> updateReservationAffectedBy(@NotNull @Valid Reservation reservation) {
+        return reservationRepo.updateAffectedReservationOfType
+                (reservation.getEndTime(), reservation.getItems(),
+                        reservation.getId(), ReservationType.RESERVATION);
     }
 
-    private Reservation saveReservation(Reservation reservation) {
-        if (reservation.getType() == ReservationType.RESERVATION) {
-            return reservationRepo.save(reservation);
-        } else if (reservation.getType() == ReservationType.MAINTENANCE) {
-            return reservationRepo.saveMaintenanceReservation(reservation);
-        } else {
-            throw new BadRequestException
-                    (ResponseErrStatus.ILLEGAL_RESERVATION_TYPE, "Illegal Reservation Type provided");
-        }
-    }
+//    // TODO remove after mapstruct decorator is implemented
+//    private ReservationResponse mapReservationResponse(Reservation reservation) {
+//        if (reservation.getType() == ReservationType.RESERVATION) {
+//            return reservationMapper.reservationToStandardResponse(reservation);
+//        } else if (reservation.getType() == ReservationType.MAINTENANCE) {
+//            return reservationMapper.reservationToMaintenanceResponse(reservation, "Ok"); // todo implement result
+//        } else {
+//            throw new ServerErrorException
+//                    (ResponseErrStatus.DB_SAVE_FAILED, "Could not complete reservation");
+//        }
+//    }
+
+//    private Reservation saveReservation(Reservation reservation) {
+//        if (reservation.getType() == ReservationType.RESERVATION) {
+//            return reservationRepo.save(reservation);
+//        } else if (reservation.getType() == ReservationType.MAINTENANCE) {
+//            return reservationRepo.saveMaintenanceReservation(reservation);
+//        } else {
+//            throw new BadRequestException
+//                    (ResponseErrStatus.ILLEGAL_RESERVATION_TYPE, "Illegal Reservation Type provided");
+//        }
+//    }
 
 
 
