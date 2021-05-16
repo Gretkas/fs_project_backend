@@ -1,10 +1,13 @@
 package fs_project.repo;
 
+import fs_project.model.dataEntity.Item;
 import fs_project.model.dataEntity.Reservation;
+import fs_project.model.dataEntity.Section;
 import fs_project.model.dataEntity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
 import java.util.Set;
 
 public interface ReservationRepo extends JpaRepository<Reservation, Long> {

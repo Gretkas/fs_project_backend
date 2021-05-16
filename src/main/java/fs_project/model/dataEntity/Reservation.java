@@ -39,19 +39,18 @@ public class Reservation {
     )
     private List<Item> items;
 
-    @Column(name = "section_name")
-    private String sectionName;
-
     @Column(name="type")
     private ReservationType type;
 
-    public Reservation( User user, LocalDateTime startTime, LocalDateTime endTime, List<Item> items, ReservationType type, String sectionName) {
-        this.sectionName = sectionName;
+    private String title;
+
+    public Reservation( User user, LocalDateTime startTime, LocalDateTime endTime, List<Item> items, ReservationType type, String title) {
         this.user = user;
         this.startTime = startTime;
         this.endTime = endTime;
         this.items = items;
         this.type = type;
+        this.title = title;
     }
 
     public Reservation() {}
@@ -113,12 +112,12 @@ public class Reservation {
         this.type = type;
     }
 
-    public String getSectionName() {
-        return sectionName;
+    public String getTitle() {
+        return title;
     }
 
-    public void setSectionName(String sectionName) {
-        this.sectionName = sectionName;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     @Override
