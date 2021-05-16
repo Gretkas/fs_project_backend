@@ -8,6 +8,7 @@ import org.mapstruct.IterableMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -19,11 +20,14 @@ import java.util.List;
         unmappedTargetPolicy = ReportingPolicy.WARN, // todo change to ignore in production stage
         uses = {ItemMapper.class}
 )
-public abstract class RoomMapper {
+public interface RoomMapper {
 
 
-    public abstract RoomDTO RoomToRoomDTO(Room room);
-    public abstract List<RoomDTO> RoomsToRoomDTO(List<Room> rooms);
+    public abstract RoomDTO roomToRoomDTO(Room room);
+    default Page<RoomDTO> roomPageToRoomDTOPage(Page<Room> rooms){
+        return rooms.map(this::roomToRoomDTO);
+    };
+    public abstract List<RoomDTO> roomListToRoomDTOList(List<Room> rooms);
 
     @Mapping(target = "id", source = ".")
     public abstract Room roomIdToRoom(Long roomId);
