@@ -1,14 +1,8 @@
 package fs_project;
 
 import fs_project.model.Attributes.ReservationType;
-import fs_project.model.dataEntity.Item;
-import fs_project.model.dataEntity.Reservation;
-import fs_project.model.dataEntity.Room;
-import fs_project.model.dataEntity.User;
-import fs_project.repo.ItemRepo;
-import fs_project.repo.ReservationRepo;
-import fs_project.repo.RoomRepo;
-import fs_project.repo.UserRepo;
+import fs_project.model.dataEntity.*;
+import fs_project.repo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -42,6 +36,8 @@ public class TestData {
 
     @Autowired
     private UserRepo userRepo;
+    @Autowired
+    private SectionRepo sectionRepo;
 
     @PostConstruct
     private void postConstruct() {
@@ -55,14 +51,19 @@ public class TestData {
         User user6 = new User("test5","password","USER");
 
         Room room1 = new Room();
+
         room1.setName("kjemi");
         room1.setDescription("Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s");
         room1.setLocation("Dragvoll");
 
         Room room2 = new Room();
+
         room2.setName("fysikklabben");
         room2.setDescription("Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s");
         room2.setLocation("Dragvoll");
+
+        roomRepo.save(room1);
+        roomRepo.save(room2);
 
         Item pc = new Item();
         pc.setName("PC");
@@ -72,25 +73,48 @@ public class TestData {
         koke.setName("Koke");
         koke.setRoomId(room1);
 
+        Item centrifuge = new Item();
+        centrifuge.setName("Centrifuge");
+        centrifuge.setRoomId(room1);
+
         List<Item> ting1 = new ArrayList<>();
         ting1.add(koke);
+        ting1.add(centrifuge);
         room1.setItems(ting1);
 
         List<Item> ting2 = new ArrayList<>();
         ting2.add(pc);
         room2.setItems(ting2);
 
+        List<Item> ting3 = new ArrayList<>();
+        ting3.add(koke);
+
+
 
         Reservation reservation = new Reservation(
                 user1,
-                LocalDateTime.parse("2021-05-17 11:00", formatter),
-                LocalDateTime.parse("2021-05-17 14:00", formatter),
+                LocalDateTime.parse("2021-05-21 11:00", formatter),
+                LocalDateTime.parse("2021-05-21 14:00", formatter),
                 ting1,
                 ReservationType.RESERVATION
         );
+        itemRepo.save(koke);
+        itemRepo.save(pc);
+        itemRepo.save(centrifuge);
+
+        Section section = new Section();
+        section.setItems(ting3);
+        section.setName("Seksjon for koking");
+        ArrayList<Section> room1Sections = new ArrayList<>();
+        room1Sections.add(section);
+        room1.setSections(room1Sections);
+
+        sectionRepo.save(section);
+
 
         itemRepo.save(koke);
         itemRepo.save(pc);
+
 
         roomRepo.save(room1);
         roomRepo.save(room2);

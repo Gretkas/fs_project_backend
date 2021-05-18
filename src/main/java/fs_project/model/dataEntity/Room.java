@@ -17,7 +17,7 @@ public class Room {
     private String location;
 
     private String name;
-    @OneToMany(cascade=CascadeType.ALL)
+    @OneToMany(cascade=CascadeType.MERGE)
     @JoinTable(
             name="room_item",
             joinColumns = @JoinColumn(name = "room_id"),
@@ -25,7 +25,7 @@ public class Room {
     )
     private List<Item> items;
 
-    @ManyToMany(cascade=CascadeType.ALL)
+    @OneToMany(cascade=CascadeType.ALL)
     @JoinTable(
             name="room_section",
             joinColumns = @JoinColumn(name = "room_id"),

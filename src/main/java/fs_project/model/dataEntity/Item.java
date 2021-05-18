@@ -2,6 +2,7 @@ package fs_project.model.dataEntity;
 
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "Item")
@@ -12,7 +13,7 @@ public class Item {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long itemId;
 
-    @ManyToOne(cascade=CascadeType.ALL)
+    @ManyToOne(cascade=CascadeType.MERGE)
     @JoinColumn(
             name="room_id",
             updatable = true

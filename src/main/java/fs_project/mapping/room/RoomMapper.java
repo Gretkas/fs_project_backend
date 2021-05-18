@@ -3,6 +3,7 @@ package fs_project.mapping.room;
 
 import fs_project.mapping.dto.RoomDTO;
 import fs_project.mapping.item.ItemMapper;
+import fs_project.mapping.section.SectionMapper;
 import fs_project.model.dataEntity.Room;
 import org.mapstruct.IterableMapping;
 import org.mapstruct.Mapper;
@@ -18,7 +19,7 @@ import java.util.List;
          * the class's methods.
          */
         unmappedTargetPolicy = ReportingPolicy.WARN, // todo change to ignore in production stage
-        uses = {ItemMapper.class}
+        uses = {ItemMapper.class, SectionMapper.class}
 )
 public interface RoomMapper {
 
