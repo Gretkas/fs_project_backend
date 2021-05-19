@@ -4,8 +4,10 @@ import fs_project.exceptions.BadRequestException;
 import fs_project.exceptions.FatalException;
 import fs_project.exceptions.ResponseErrStatus;
 import fs_project.exceptions.ServerErrorException;
+import fs_project.mapping.dto.AvailableItemsRequest;
 import fs_project.mapping.dto.ReservationRequestDto;
 import fs_project.mapping.dto.ReservationResponse;
+import fs_project.mapping.item.ItemMapper;
 import fs_project.mapping.reservation.ReservationMapper;
 import fs_project.model.Attributes.ReservationType;
 import fs_project.model.dataEntity.Item;
@@ -25,6 +27,7 @@ import org.springframework.stereotype.Service;
 import javax.validation.ConstraintViolationException;
 import javax.validation.constraints.NotNull;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -39,6 +42,9 @@ public class ReservationService {
 
     @Autowired
     private ReservationMapper reservationMapper;
+
+    @Autowired
+    ItemMapper itemMapper;
 
     public Reservation getReservation(long id) {
         return null;
@@ -120,11 +126,15 @@ public class ReservationService {
 
     public ReservationAvailabilityResponseModel getAvailableReservations(ReservationAvailabilityRequestModel reservationAvailabilityRequestModel) {
         ReservationAvailabilityResponseModel response = new ReservationAvailabilityResponseModel();
-        Set<Item> items = reservationAvailabilityRequestModel.getItems();
-        items.forEach(item -> {
-            Set<Reservation> reservations = reservationRepo.getItemReservationsNextSevenDays(item.getItemId());
-            response.addItemToTimeTable(reservations);
-        });
+        System.out.println(reservationAvailabilityRequestModel.toString());
+        List<Item> items = reservationAvailabilityRequestModel.getItems();
+        if(items != null && items.size() > 0){
+            items.forEach(item -> {
+                Set<Reservation> reservations = reservationRepo.getItemReservationsNextSevenDays(item.getItemId());
+                response.addItemToTimeTable(reservations);
+            });
+        }
+
 
 
         return response;

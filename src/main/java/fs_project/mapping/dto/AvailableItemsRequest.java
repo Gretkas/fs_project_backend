@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -15,5 +16,5 @@ public class AvailableItemsRequest {
 
     @NotNull
     @NotEmpty
-    private Set<ItemReservationDto> items;
+    private List<SingleItemDTO> items;
 }

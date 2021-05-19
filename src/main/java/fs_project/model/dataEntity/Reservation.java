@@ -57,7 +57,7 @@ public class Reservation {
 
     public boolean[] toTimeTable(){
         boolean[] timeTable = new boolean[10];
-        for (int i = startTime.getHour()-8; i < endTime.getHour()-8; i++) {
+        for (int i = startTime.getHour()-7; i < endTime.getHour()-7; i++) {
             timeTable[i] = true;
         }
 
