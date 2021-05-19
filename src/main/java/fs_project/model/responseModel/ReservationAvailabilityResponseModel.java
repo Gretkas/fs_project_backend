@@ -14,9 +14,16 @@ public class ReservationAvailabilityResponseModel {
 
     public ReservationAvailabilityResponseModel() {
         this.timetable = new boolean[7][10];
-        for (int i = 0; i < LocalDateTime.now().getHour()-6; i++) {
-            timetable[0][i] = true;
-        }
+        if( LocalDateTime.now().getHour()-6 <= 9){
+            for (int i = 0; i < LocalDateTime.now().getHour()-6; i++) {
+
+                timetable[0][i] = true;
+            }
+        }else
+            for (int i = 0; i < 10; i++) {
+
+                timetable[0][i] = true;
+            }
 
     }
 
