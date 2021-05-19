@@ -8,6 +8,7 @@ import fs_project.model.dataEntity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -30,33 +31,16 @@ public interface ReservationRepo extends JpaRepository<Reservation, Long> {
 
     Set<Reservation> getReservationsByUser(User user);
 
-    // TODO implement
-    @Query(value = "SELECT * from reservation", nativeQuery = true)
-    Reservation saveMaintenanceReservation(Reservation reservation);
-
     @Query(
-            value = "UPDATE Reservation r " +
-                    "SET r.endTime = :maintenanceStart " +
-                    "WHERE r.type = :type " +
+            value = "SELECT r " +
+                    "FROM Reservation r " +
+                    "WHERE r.type = '0' " +
                     "AND r.id <> :affectedBy " +
-//                    "AND r.startTime BEFORE :maintenanceStart " +
-                    "AND r.endTime < :maintenanceStart " +
-                    "AND r.items IN :items",
-            nativeQuery = true
+                    "AND (r.endTime BETWEEN :maintenanceStart AND :maintenanceEnd  " +
+                    "OR r.startTime BETWEEN :maintenanceStart AND :maintenanceEnd) " +
+                    "AND r IN (SELECT r FROM Reservation r INNER JOIN r.items i WHERE i IN(:items))"
     )
-    Set<Reservation> updateAffectedReservationOfType
-            (LocalDateTime maintenanceStart, List<Item> items, Long affectedBy, ReservationType type);
-
-//    Set<Reservation> findAllByEndTimeBeforeAndItemsContains();
-//
-//    Set<Reservation> findAllByAffectedReservation(Reservation maintenance);
-//
-//    @Modifying(clearAutomatically = true) // ensures that em will synchronize affected entities
-//    @Query(
-//            value = "UPDATE ",
-//            nativeQuery = true
-//    )
-//    Set<Reservation> updateAffectedReservation();
-//
-//    Set<Section> findAllByItemsContains
+    Set<Reservation> findAffectedReservations
+            (LocalDateTime maintenanceStart, LocalDateTime maintenanceEnd,
+             Long affectedBy, List<Item> items);
 }

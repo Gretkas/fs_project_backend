@@ -68,8 +68,28 @@ public class TestData {
         koke.setName("Koke");
         koke.setRoomId(room1);
 
+        Item koke2 = new Item();
+        koke2.setName("Koke2");
+        koke2.setRoomId(room1);
+
+        Item koke3 = new Item();
+        koke3.setName("Koke3");
+        koke3.setRoomId(room1);
+
+        Item koke4 = new Item();
+        koke4.setName("Koke4");
+        koke4.setRoomId(room1);
+
+        Item koke5 = new Item();
+        koke5.setName("Koke5");
+        koke5.setRoomId(room1);
+
         List<Item> ting1 = new ArrayList<>();
         ting1.add(koke);
+        ting1.add(koke2);
+        ting1.add(koke3);
+        ting1.add(koke4);
+        ting1.add(koke5);
         room1.setItems(ting1);
 
         List<Item> ting2 = new ArrayList<>();
@@ -85,7 +105,35 @@ public class TestData {
                 ReservationType.RESERVATION
         );
 
+        Reservation reservation2 = new Reservation(
+                user1,
+                LocalDateTime.parse("2021-05-18 11:00", formatter),
+                LocalDateTime.parse("2021-05-22 14:00", formatter),
+                ting1,
+                ReservationType.RESERVATION
+        );
+
+        Reservation reservation3 = new Reservation(
+                user1,
+                LocalDateTime.parse("2021-05-19 11:00", formatter),
+                LocalDateTime.parse("2021-05-22 14:00", formatter),
+                ting1,
+                ReservationType.RESERVATION
+        );
+
+        Reservation reservation4 = new Reservation(
+                user1,
+                LocalDateTime.parse("2021-05-23 11:00", formatter),
+                LocalDateTime.parse("2021-05-25 14:00", formatter),
+                ting1,
+                ReservationType.RESERVATION
+        );
+
         itemRepo.save(koke);
+        itemRepo.save(koke2);
+        itemRepo.save(koke3);
+        itemRepo.save(koke4);
+        itemRepo.save(koke5);
         itemRepo.save(pc);
 
         roomRepo.save(room1);
@@ -98,5 +146,8 @@ public class TestData {
         userRepo.save(user5);
         userRepo.save(user6);
         reservationRepo.save(reservation);
+        reservationRepo.save(reservation2);
+        reservationRepo.save(reservation3);
+        reservationRepo.save(reservation4);
     }
 }

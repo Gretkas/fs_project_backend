@@ -5,6 +5,7 @@ import fs_project.model.Attributes.ReservationType;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -37,7 +38,7 @@ public class Reservation {
             joinColumns = @JoinColumn(name = "reservation_id"),
             inverseJoinColumns = @JoinColumn(name = "item_id")
     )
-    private List<Item> items;
+    private List<Item> items = new ArrayList<>();
 
     @Column(name="type")
     private ReservationType type;

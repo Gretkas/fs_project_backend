@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.Valid;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotEmpty;
@@ -33,7 +34,9 @@ public class ReservationRequestDto {
     private ReservationType type;
 
     @AssertTrue
-    public boolean isValidDateRange() {
-        return startTime.isBefore(endTime);
+    private boolean isValidDateRange() {
+        return startTime != null &&
+                endTime != null &&
+                startTime.isBefore(endTime);
     }
 }

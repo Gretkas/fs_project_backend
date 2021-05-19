@@ -1,21 +1,15 @@
 package fs_project.mapping.reservation;
 
-import fs_project.exceptions.FatalException;
-import fs_project.exceptions.ResponseErrStatus;
 import fs_project.mapping.dto.*;
 import fs_project.mapping.user.UserMapper;
-import fs_project.model.Attributes.ReservationType;
 import fs_project.model.dataEntity.Item;
 import fs_project.model.dataEntity.Reservation;
 import fs_project.model.dataEntity.Room;
-import fs_project.service.UserService;
 import org.mapstruct.*;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
-import java.util.Set;
 
 @Mapper(
         /*
@@ -27,12 +21,8 @@ import java.util.Set;
 )
 public abstract class ReservationMapper {
 
-//    @Autowired
-//    protected UserService userService;
-
     @Mappings({
             // whole source obj is available for expression
-//            @Mapping(target = "user", expression = "java(userService.getThisUser())"),
             @Mapping(target = "user", ignore = true),
             @Mapping(target = "id", ignore = true) //
     })
@@ -52,6 +42,12 @@ public abstract class ReservationMapper {
 
     @Mapping(target = "id", source = ".")
     public abstract Room roomIdToRoom(Long roomId);
+
+    public Long roomToRoomId(Room room) {
+        if (room == null) return null;
+
+        return room.getId() != -1 ? room.getId() : null;
+    }
 
     public abstract List<Item> itemReservationSetToItemSet(List<ItemReservationDto> itemReservationSet);
 

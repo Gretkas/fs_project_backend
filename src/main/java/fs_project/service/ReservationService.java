@@ -22,9 +22,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -71,7 +71,9 @@ public class ReservationService {
             if (r.getType() == ReservationType.MAINTENANCE) {
                 @NotNull @Valid Set<Reservation> affectedReservations;
                 try {
-                    affectedReservations = updateReservationAffectedBy(r);
+                    affectedReservations = findReservationsAffectedBy(r);
+                    updateAffectedReservations(affectedReservations, r.getStartTime(), r.getEndTime());
+                    reservationRepo.saveAll(affectedReservations);
                 } catch (Exception e) {
                     throw new ServerErrorException
                             (ResponseErrStatus.DB_UPDATE_FAILED,
@@ -90,36 +92,23 @@ public class ReservationService {
         return res;
     }
 
-    private Set<Reservation> updateReservationAffectedBy(@NotNull @Valid Reservation reservation) {
-        return reservationRepo.updateAffectedReservationOfType
-                (reservation.getEndTime(), reservation.getItems(),
-                        reservation.getId(), ReservationType.RESERVATION);
+    private void updateAffectedReservations(@NotNull Set<Reservation> affected, LocalDateTime maintenanceStart, LocalDateTime maintenanceEnd) {
+        affected.forEach(r -> {
+            if (r.getEndTime().isAfter(maintenanceStart) && r.getEndTime().isBefore(maintenanceEnd)) {
+                r.setEndTime(maintenanceStart);
+            }
+            if (r.getStartTime().isAfter(maintenanceStart) && r.getStartTime().isBefore(maintenanceEnd)) {
+                r.setStartTime(maintenanceEnd);
+            }
+        });
     }
 
-//    // TODO remove after mapstruct decorator is implemented
-//    private ReservationResponse mapReservationResponse(Reservation reservation) {
-//        if (reservation.getType() == ReservationType.RESERVATION) {
-//            return reservationMapper.reservationToStandardResponse(reservation);
-//        } else if (reservation.getType() == ReservationType.MAINTENANCE) {
-//            return reservationMapper.reservationToMaintenanceResponse(reservation, "Ok"); // todo implement result
-//        } else {
-//            throw new ServerErrorException
-//                    (ResponseErrStatus.DB_SAVE_FAILED, "Could not complete reservation");
-//        }
-//    }
-
-//    private Reservation saveReservation(Reservation reservation) {
-//        if (reservation.getType() == ReservationType.RESERVATION) {
-//            return reservationRepo.save(reservation);
-//        } else if (reservation.getType() == ReservationType.MAINTENANCE) {
-//            return reservationRepo.saveMaintenanceReservation(reservation);
-//        } else {
-//            throw new BadRequestException
-//                    (ResponseErrStatus.ILLEGAL_RESERVATION_TYPE, "Illegal Reservation Type provided");
-//        }
-//    }
-
-
+    private Set<Reservation> findReservationsAffectedBy(@NotNull @Valid Reservation reservation) {
+        return reservationRepo
+                .findAffectedReservations
+                        (reservation.getStartTime(), reservation.getEndTime(),
+                                reservation.getId(), reservation.getItems());
+    }
 
     public Reservation updateReservation(Reservation reservation, long id) {
         return null;
