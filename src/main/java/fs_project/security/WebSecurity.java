@@ -3,9 +3,11 @@ package fs_project.security;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -17,6 +19,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -40,6 +43,13 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 
     @Autowired
     RestAuthEntryPoint restAuthEntryPoint;
+
+    @Value("${frontend_url}")
+    private String frontendUrl;
+
+
+    @Autowired
+    private Environment env;
 
     @Autowired
     MyAuthenticationFailureHandler failureHandler;
@@ -84,7 +94,8 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        configuration.setAllowedOrigins(Collections.singletonList("http://localhost:3000"));
+
+        configuration.setAllowedOrigins(Collections.singletonList(frontendUrl));
         configuration.setAllowedHeaders(List.of("*"));
 
         //configuration.setAllowedMethods(Arrays.asList("GET","POST", "PUT", "OPTIONS"));
