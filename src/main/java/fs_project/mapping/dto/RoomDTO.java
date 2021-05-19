@@ -17,14 +17,14 @@ public class RoomDTO {
 
     @NotNull
     @Positive
-    private Long roomId;
+    private Long id;
 
     @NotNull
     @NotEmpty
     private List<SingleItemDTO> items;
 
     @NotNull
-    private List<Section> sections;
+    private List<SectionDTO> sections;
 
     @NotNull
     @NotBlank

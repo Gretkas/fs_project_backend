@@ -21,6 +21,7 @@ public abstract class ItemMapper {
 
 
     public abstract List<SingleItemDTO> itemListToItemDTOList(List<Item> items);
-
+    public abstract List<Item> itemDTOListToItemList(List<SingleItemDTO> items);
     public abstract SingleItemDTO itemToSingleItemDTO(Item item);
+    public abstract Item itemDTOToSingleItem(SingleItemDTO item);
 }

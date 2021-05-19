@@ -27,10 +27,12 @@ public class ReservationRequestDto {
 
     @NotNull
     @NotEmpty
-    private List<ItemReservationDto> items;
+    private List<SingleItemDTO> items;
 
     @NotNull
     private ReservationType type;
+
+
 
     @AssertTrue
     public boolean isValidDateRange() {
