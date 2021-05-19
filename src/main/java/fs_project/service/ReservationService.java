@@ -111,16 +111,6 @@ public class ReservationService {
         });
     }
 
-    private Reservation saveReservation(Reservation reservation) {
-        if (reservation.getType() == ReservationType.RESERVATION) {
-            System.out.println(reservation);
-            return reservationRepo.save(reservation);
-        } else if (reservation.getType() == ReservationType.MAINTENANCE) {
-            return reservationRepo.saveMaintenanceReservation(reservation);
-        } else {
-            throw new BadRequestException
-                    (ResponseErrStatus.ILLEGAL_RESERVATION_TYPE, "Illegal Reservation Type provided");
-        }
     private Set<Reservation> findReservationsAffectedBy(@NotNull @Valid Reservation reservation) {
         return reservationRepo
                 .findAffectedReservations
