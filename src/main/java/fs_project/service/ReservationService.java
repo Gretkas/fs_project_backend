@@ -4,8 +4,10 @@ import fs_project.exceptions.BadRequestException;
 import fs_project.exceptions.FatalException;
 import fs_project.exceptions.ResponseErrStatus;
 import fs_project.exceptions.ServerErrorException;
+import fs_project.mapping.dto.AvailableItemsRequest;
 import fs_project.mapping.dto.ReservationRequestDto;
 import fs_project.mapping.dto.ReservationResponse;
+import fs_project.mapping.item.ItemMapper;
 import fs_project.mapping.reservation.ReservationMapper;
 import fs_project.model.Attributes.ReservationType;
 import fs_project.model.dataEntity.Item;
@@ -26,6 +28,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -41,6 +44,9 @@ public class ReservationService {
     @Autowired
     private ReservationMapper reservationMapper;
 
+    @Autowired
+    ItemMapper itemMapper;
+
     public Reservation getReservation(long id) {
         return null;
     }
@@ -55,9 +61,11 @@ public class ReservationService {
         @Valid Reservation r = reservationMapper.reservationRequestToReservation(reservationPostRequestModel);
         @Valid User user;
         @Valid ReservationResponse res;
+        System.out.println(reservationPostRequestModel.toString());
         try {
             user = userService.getThisUser();
             r.setUser(user);
+            r.setItems(itemMapper.itemDTOListToItemList(reservationPostRequestModel.getItems()));
         } catch (UsernameNotFoundException e) {
             // evt. some other handling
             throw new FatalException(ResponseErrStatus.USER_NOT_FOUND, "User session not recognized", e);
@@ -103,6 +111,16 @@ public class ReservationService {
         });
     }
 
+    private Reservation saveReservation(Reservation reservation) {
+        if (reservation.getType() == ReservationType.RESERVATION) {
+            System.out.println(reservation);
+            return reservationRepo.save(reservation);
+        } else if (reservation.getType() == ReservationType.MAINTENANCE) {
+            return reservationRepo.saveMaintenanceReservation(reservation);
+        } else {
+            throw new BadRequestException
+                    (ResponseErrStatus.ILLEGAL_RESERVATION_TYPE, "Illegal Reservation Type provided");
+        }
     private Set<Reservation> findReservationsAffectedBy(@NotNull @Valid Reservation reservation) {
         return reservationRepo
                 .findAffectedReservations
@@ -130,13 +148,16 @@ public class ReservationService {
 
     public ReservationAvailabilityResponseModel getAvailableReservations(ReservationAvailabilityRequestModel reservationAvailabilityRequestModel) {
         ReservationAvailabilityResponseModel response = new ReservationAvailabilityResponseModel();
-        Set<Item> items = reservationAvailabilityRequestModel.getItems();
-        items.forEach(item -> {
-            Set<Reservation> reservations = reservationRepo.getItemReservationsNextSevenDays(item.getItemId());
-            response.addItemToTimeTable(reservations);
-        });
-
-
+        System.out.println(reservationAvailabilityRequestModel.toString());
+        List<Item> items = reservationAvailabilityRequestModel.getItems();
+        if(items != null && items.size() > 0){
+            items.forEach(item -> {
+                Set<Reservation> reservations = reservationRepo.getItemReservationsNextSevenDays(item.getItemId());
+                response.addItemToTimeTable(reservations);
+            });
+        }else{
+            response.createReservedTable();
+        }
         return response;
     }
 

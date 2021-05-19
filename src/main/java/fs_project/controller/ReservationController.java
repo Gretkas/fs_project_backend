@@ -1,5 +1,6 @@
 package fs_project.controller;
 
+import fs_project.mapping.dto.AvailableItemsRequest;
 import fs_project.mapping.dto.ReservationRequestDto;
 import fs_project.mapping.dto.ReservationResponse;
 import fs_project.model.dataEntity.Reservation;
@@ -36,8 +37,9 @@ public class ReservationController {
         return ResponseEntity.ok(reservationService.getReservation(id));
     }
 
-    @GetMapping(value = "/available", produces = APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/available", produces = APPLICATION_JSON_VALUE)
     public ResponseEntity<ReservationAvailabilityResponseModel> getAvailableReservations(@RequestBody ReservationAvailabilityRequestModel reservationAvailabilityRequestModel){
+        System.out.println(reservationAvailabilityRequestModel.toString());
         return ResponseEntity.ok(reservationService.getAvailableReservations(reservationAvailabilityRequestModel));
     }
 

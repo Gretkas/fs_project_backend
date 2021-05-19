@@ -1,20 +1,27 @@
 package fs_project.mapping.dto;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.util.List;
-import java.util.Set;
+import javax.validation.constraints.Positive;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class AvailableItemsRequest {
+public class SingleItemDTO {
+
 
     @NotNull
-    @NotEmpty
-    private List<SingleItemDTO> items;
+    @Positive
+    private long itemId;
+
+
+    @NotNull
+    @NotBlank
+    private String name;
+
 }
