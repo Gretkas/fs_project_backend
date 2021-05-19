@@ -100,7 +100,7 @@ public class Reservation {
         return items;
     }
 
-    public void setNodes(List<Item> nodes) {
+    public void setItems(List<Item> nodes) {
         this.items = nodes;
     }
 
@@ -110,5 +110,17 @@ public class Reservation {
 
     public void setType(ReservationType type) {
         this.type = type;
+    }
+
+    @Override
+    public String toString() {
+        return "Reservation{" +
+                "id=" + id +
+                ", user=" + user +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
+                ", items=" + items +
+                ", type=" + type +
+                '}';
     }
 }

@@ -32,6 +32,8 @@ public class ReservationRequestDto {
     @NotNull
     private ReservationType type;
 
+
+
     @AssertTrue
     public boolean isValidDateRange() {
         return startTime.isBefore(endTime);

@@ -4,6 +4,7 @@ import fs_project.exceptions.FatalException;
 import fs_project.exceptions.ResponseErrStatus;
 
 
+import fs_project.mapping.item.ItemMapper;
 import fs_project.mapping.room.RoomMapper;
 
 import fs_project.mapping.dto.*;
@@ -29,7 +30,7 @@ import java.util.Set;
          */
 
         unmappedTargetPolicy = ReportingPolicy.WARN, // todo change to ignore in production stage,
-        uses = {RoomMapper.class, UserMapper.class}
+        uses = {RoomMapper.class, UserMapper.class, ItemMapper.class}
 
 
 

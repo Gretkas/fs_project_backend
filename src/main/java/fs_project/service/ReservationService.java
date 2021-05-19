@@ -57,12 +57,14 @@ public class ReservationService {
 //    }
 
     public ReservationResponse createReservation(@NotNull ReservationRequestDto reservationPostRequestModel) throws BadHttpRequest {
+        System.out.println(reservationPostRequestModel.toString());
         Reservation r = reservationMapper.reservationRequestToReservation(reservationPostRequestModel);
         User user;
         ReservationResponse res;
         try {
             user = userService.getThisUser();
             r.setUser(user);
+            r.setItems(itemMapper.itemDTOListToItemList(reservationPostRequestModel.getItems()));
         } catch (UsernameNotFoundException e) {
             // evt. some other handling
             throw new FatalException(ResponseErrStatus.USER_NOT_FOUND, "User session not recognized", e);
@@ -95,6 +97,7 @@ public class ReservationService {
 
     private Reservation saveReservation(Reservation reservation) {
         if (reservation.getType() == ReservationType.RESERVATION) {
+            System.out.println(reservation);
             return reservationRepo.save(reservation);
         } else if (reservation.getType() == ReservationType.MAINTENANCE) {
             return reservationRepo.saveMaintenanceReservation(reservation);
