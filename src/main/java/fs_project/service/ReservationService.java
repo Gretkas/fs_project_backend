@@ -136,10 +136,9 @@ public class ReservationService {
                 Set<Reservation> reservations = reservationRepo.getItemReservationsNextSevenDays(item.getItemId());
                 response.addItemToTimeTable(reservations);
             });
+        }else{
+            response.createReservedTable();
         }
-
-
-
         return response;
     }
 

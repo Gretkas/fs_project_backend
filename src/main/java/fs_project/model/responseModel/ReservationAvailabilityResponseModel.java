@@ -33,6 +33,14 @@ public class ReservationAvailabilityResponseModel {
         }
     }
 
+    public void createReservedTable(){
+        for (int i = 0; i < 7; i++) {
+            for (int j = 0; j < 10; j++) {
+                timetable[i][j] = true;
+            }
+        }
+    }
+
     public boolean[][] getTimetable() {
         return timetable;
     }
