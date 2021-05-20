@@ -35,13 +35,12 @@ public class ReservationPostRequestModel {
 
     @NotNull
     private ReservationType type;
+  
+    @NotNull
+    private String title;
 
     @AssertTrue
     final public boolean isValidDateRange() {
         return startTime.isBefore(endTime);
     }
-
-//    private void validate() throws BadHttpRequest {
-//        if(startTime.isAfter(endTime) || items.size() <= 0) throw new BadHttpRequest();
-//    }
 }

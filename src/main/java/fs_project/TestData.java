@@ -44,7 +44,7 @@ public class TestData {
         if (!TESTDATA_ENABLED) return;
 
         User user1 = new User("admin","admin","ADMIN");
-        User user2 = new User("test1","password","USER");
+        User user2 = new User("1234","1234","USER");
         User user3 = new User("test2","password","USER");
         User user4 = new User("test3","password","USER");
         User user5 = new User("test4","password","USER");
@@ -118,7 +118,8 @@ public class TestData {
                 LocalDateTime.parse("2021-05-21 11:00", formatter),
                 LocalDateTime.parse("2021-05-21 14:00", formatter),
                 ting1,
-                ReservationType.RESERVATION
+                ReservationType.RESERVATION,
+                "Kokeseksjon"
         );
         itemRepo.save(koke);
         itemRepo.save(pc);
@@ -129,7 +130,8 @@ public class TestData {
                 LocalDateTime.parse("2021-05-18 11:00", formatter),
                 LocalDateTime.parse("2021-05-22 14:00", formatter),
                 ting1,
-                ReservationType.RESERVATION
+                ReservationType.RESERVATION,
+                "Kokeseksjon"
         );
 
         Reservation reservation3 = new Reservation(
@@ -137,7 +139,8 @@ public class TestData {
                 LocalDateTime.parse("2021-05-19 11:00", formatter),
                 LocalDateTime.parse("2021-05-22 14:00", formatter),
                 ting1,
-                ReservationType.RESERVATION
+                ReservationType.RESERVATION,
+                "Kokeseksjon"
         );
 
         Reservation reservation4 = new Reservation(
@@ -145,7 +148,8 @@ public class TestData {
                 LocalDateTime.parse("2021-05-23 11:00", formatter),
                 LocalDateTime.parse("2021-05-25 14:00", formatter),
                 ting1,
-                ReservationType.RESERVATION
+                ReservationType.RESERVATION,
+                "Kokeseksjon"
         );
 
         Section section = new Section();
