@@ -24,7 +24,7 @@ jobs:
     - name: Build image with Maven
       run: mvn spring-boot:build-image
     - name: Tag Image
-      run: docker tag fs_project:0.0.1 ${DOCKERHUB_LOGIN}/fs_backend
+      run: docker tag fs_project:0.0.1 ${{DOCKERHUB_LOGIN}}/fs_backend
     - name: Docker login
       env: 
         DOCKER_USER: ${{DOCKERHUB_LOGIN}}
@@ -33,4 +33,4 @@ jobs:
         docker login -u $DOCKER_USER -p $DOCKER_SECRET
     - name: push image
       run: |
-        docker tag fs_project:0.0.1 $DOCKER_USER/fs_backend
+        docker push $DOCKER_USER/fs_backend
