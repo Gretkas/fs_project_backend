@@ -43,9 +43,11 @@ public class WebSecurityTestConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/api-docs/**").permitAll()
                 .antMatchers("/v3/**").permitAll()
                 .antMatchers("/api/swagger-ui/**").permitAll()
-                .antMatchers(HttpMethod.POST, "/user").permitAll()
-                .antMatchers(HttpMethod.POST, "/user/verify/**").permitAll()
-                .antMatchers(HttpMethod.GET, "/activities").permitAll()
+                .antMatchers("/users/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST, "/rooms").hasRole("ADMIN")
+                .antMatchers(HttpMethod.PUT, "/rooms").hasRole("ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/rooms").hasRole("ADMIN")
+                .antMatchers(HttpMethod.PUT, "/reservations").hasRole("ADMIN")
                 .antMatchers(HttpMethod.POST, "/login").authenticated()
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
                 .anyRequest().authenticated()
@@ -77,7 +79,7 @@ public class WebSecurityTestConfig extends WebSecurityConfigurerAdapter {
                 .password("{noop}admin")
                 .roles("USER")
                 .and()
-                .withUser("haakon")
+                .withUser("1234")
                 .password("{noop}1234")
                 .roles("USER");
     }
@@ -123,10 +125,10 @@ public class WebSecurityTestConfig extends WebSecurityConfigurerAdapter {
     public UserDetailsService userDetailsService() {
 
         //User Role
-        UserDetails user = User.withUsername("haakon@haakon.no")
+        UserDetails user = User.withUsername("1234")
                 .passwordEncoder(PasswordEncoderFactories.createDelegatingPasswordEncoder()::encode)
 //                .passwordEncoder(getPasswordEncoder()::encode)
-                .password("12345678").roles("USER").build();
+                .password("1234").roles("USER").build();
 
         //Manager Role
         UserDetails test = User.withUsername("test@test.no")
@@ -135,10 +137,10 @@ public class WebSecurityTestConfig extends WebSecurityConfigurerAdapter {
                 .password("test1234").roles("ADMIN").build();
 
         // Admin
-        UserDetails admin = User.withUsername("admin@admin.no")
+        UserDetails admin = User.withUsername("admin")
                 .passwordEncoder(PasswordEncoderFactories.createDelegatingPasswordEncoder()::encode)
 //                .passwordEncoder(getPasswordEncoder()::encode)
-                .password("admin123").roles("USER").build();
+                .password("admin").roles("ADMIN").build();
 
 
         InMemoryUserDetailsManager userDetailsManager = new InMemoryUserDetailsManager();

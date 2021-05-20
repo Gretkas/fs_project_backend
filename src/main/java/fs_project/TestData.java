@@ -44,7 +44,7 @@ public class TestData {
         if (!TESTDATA_ENABLED) return;
 
         User user1 = new User("admin","admin","ADMIN");
-        User user2 = new User("test1","password","USER");
+        User user2 = new User("1234","1234","USER");
         User user3 = new User("test2","password","USER");
         User user4 = new User("test3","password","USER");
         User user5 = new User("test4","password","USER");
