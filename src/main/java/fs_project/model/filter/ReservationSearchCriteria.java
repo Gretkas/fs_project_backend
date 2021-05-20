@@ -1,7 +1,7 @@
 package fs_project.model.filter;
 //fra sys2
 public class ReservationSearchCriteria {
-    private String name;
+    private String title;
     private boolean showPreviousReservations;
 
     public ReservationSearchCriteria() {
@@ -15,11 +15,11 @@ public class ReservationSearchCriteria {
         this.showPreviousReservations = showPreviousReservations;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

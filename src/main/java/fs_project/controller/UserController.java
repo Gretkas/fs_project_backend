@@ -1,7 +1,6 @@
 package fs_project.controller;
-import fs_project.model.dataEntity.Room;
-import fs_project.model.requestModel.UserRequestModel;
-import fs_project.model.responseModel.UserResponseModel;
+import fs_project.mapping.dto.UserRequestModel;
+import fs_project.mapping.dto.UserResponseModel;
 import fs_project.service.UserService;
 import javassist.tools.web.BadHttpRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Set;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 

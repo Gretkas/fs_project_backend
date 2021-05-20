@@ -65,9 +65,9 @@ public class ReservationCriteriaRepo {
     private Predicate getPredicate(ReservationSearchCriteria reservationSearchCriteria,
                                    Root<Reservation> reservationRoot) {
         List<Predicate> predicates = new ArrayList<>();
-        if (Objects.nonNull(reservationSearchCriteria.getName()) && !reservationSearchCriteria.getName().trim().equals("")) {
-            predicates.add(criteriaBuilder.like(criteriaBuilder.lower(reservationRoot.get("name")),
-                    "%" + reservationSearchCriteria.getName().toLowerCase() + "%"));
+        if (Objects.nonNull(reservationSearchCriteria.getTitle()) && !reservationSearchCriteria.getTitle().trim().equals("")) {
+            predicates.add(criteriaBuilder.like(criteriaBuilder.lower(reservationRoot.get("title")),
+                    "%" + reservationSearchCriteria.getTitle().toLowerCase() + "%"));
         }
         if (!reservationSearchCriteria.isShowPreviousReservations()) {
             predicates.add(criteriaBuilder.greaterThanOrEqualTo(reservationRoot.get("endTime"), LocalDateTime.now()));
