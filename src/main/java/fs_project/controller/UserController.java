@@ -1,4 +1,5 @@
 package fs_project.controller;
+import fs_project.model.dataEntity.Room;
 import fs_project.model.requestModel.UserRequestModel;
 import fs_project.model.responseModel.UserResponseModel;
 import fs_project.service.UserService;
@@ -36,6 +37,11 @@ public class UserController {
     @PutMapping(value="/users/{id}", produces = APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> changeUser(@RequestBody UserRequestModel userRequestModel, @PathVariable long id) throws Exception {
         return ResponseEntity.ok(userService.changeUser(userRequestModel,id));
+    }
+
+    @DeleteMapping(value="/users/{id}", produces = APPLICATION_JSON_VALUE)
+    public ResponseEntity<Boolean> deleteUser(@PathVariable long id){
+        return ResponseEntity.ok(userService.deleteUser(id));
     }
 
 

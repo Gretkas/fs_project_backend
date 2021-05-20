@@ -17,7 +17,7 @@ public class Room {
     private String location;
 
     private String name;
-    @OneToMany(cascade=CascadeType.MERGE)
+    @OneToMany(cascade=CascadeType.ALL)
     @JoinTable(
             name="room_item",
             joinColumns = @JoinColumn(name = "room_id"),
