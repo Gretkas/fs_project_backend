@@ -12,6 +12,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -68,6 +69,10 @@ public class ReservationCriteriaRepo {
             predicates.add(criteriaBuilder.like(criteriaBuilder.lower(reservationRoot.get("name")),
                     "%" + reservationSearchCriteria.getName().toLowerCase() + "%"));
         }
+        if (!reservationSearchCriteria.isShowPreviousReservations()) {
+            predicates.add(criteriaBuilder.greaterThanOrEqualTo(reservationRoot.get("endTime"), LocalDateTime.now()));
+        }
+
 
 
         return criteriaBuilder.and(predicates.toArray(Predicate[]::new));
