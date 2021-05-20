@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Set;
 
@@ -41,11 +42,11 @@ public class RoomController {
 
 
     @PutMapping(value="", produces = APPLICATION_JSON_VALUE)
-    public ResponseEntity<Room> putRoom(@RequestBody Room room){
+    public ResponseEntity<RoomDTO> putRoom(@RequestBody @Valid RoomDTO room){
         return ResponseEntity.ok(roomService.updateRoom(room));
     }
     @PostMapping(value="", produces = APPLICATION_JSON_VALUE)
-    public ResponseEntity<Room> postRoom(@RequestBody Room room){
+    public ResponseEntity<RoomDTO> postRoom(@RequestBody @Valid RoomDTO room){
         return ResponseEntity.ok(roomService.createRoom(room));
     }
 

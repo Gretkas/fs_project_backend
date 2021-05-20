@@ -32,4 +32,6 @@ public interface RoomMapper {
 
     @Mapping(target = "id", source = ".")
     public abstract Room roomIdToRoom(Long roomId);
+
+    Room roomDTOToRoom(RoomDTO roomDTO);
 }

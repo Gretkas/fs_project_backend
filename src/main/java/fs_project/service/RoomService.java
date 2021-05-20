@@ -7,10 +7,7 @@ import fs_project.model.dataEntity.Room;
 import fs_project.model.filter.RoomFilter;
 import fs_project.model.filter.RoomPage;
 import fs_project.model.filter.RoomSearchCriteria;
-import fs_project.repo.ItemRepo;
-import fs_project.repo.ReservationRepo;
-import fs_project.repo.RoomCriteriaRepo;
-import fs_project.repo.RoomRepo;
+import fs_project.repo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -30,18 +27,32 @@ public class RoomService {
     private ItemRepo itemRepo;
     @Autowired
     private ReservationRepo reservationRepo;
+    @Autowired
+    private SectionRepo sectionRepo;
 
 
     public RoomDTO getRoom(long id) {
         return roomMapper.roomToRoomDTO(roomRepo.getOne(id));
     }
 
-    public Room createRoom(Room reservation) {
-        return null;
+    public RoomDTO createRoom(RoomDTO roomDTO) {
+        Room room = roomMapper.roomDTOToRoom(roomDTO);
+        itemRepo.saveAll(room.getItems());
+        if(room.getSections() != null && room.getSections().size() > 0){
+            sectionRepo.saveAll(room.getSections());
+        }
+        roomRepo.save(room);
+        return roomDTO;
     }
 
-    public Room updateRoom(Room reservation) {
-        return null;
+    public RoomDTO updateRoom(RoomDTO roomDTO) {
+        Room room = roomMapper.roomDTOToRoom(roomDTO);
+        itemRepo.saveAll(room.getItems());
+        if(room.getSections() != null && room.getSections().size() > 0){
+            sectionRepo.saveAll(room.getSections());
+        }
+        roomRepo.save(room);
+        return roomDTO;
     }
 
     public boolean deleteRoom(long id) {
