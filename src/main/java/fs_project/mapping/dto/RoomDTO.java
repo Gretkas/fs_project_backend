@@ -20,6 +20,10 @@ public class RoomDTO {
     private Long id;
 
     @NotNull
+    @Positive
+    private int maxNumber;
+
+    @NotNull
     @NotEmpty
     private List<SingleItemDTO> items;
 

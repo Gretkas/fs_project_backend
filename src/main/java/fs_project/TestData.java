@@ -55,12 +55,14 @@ public class TestData {
         room1.setName("kjemi");
         room1.setDescription("Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s");
         room1.setLocation("Dragvoll");
+        room1.setMaxNumber(3);
 
         Room room2 = new Room();
 
         room2.setName("fysikklabben");
         room2.setDescription("Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s");
         room2.setLocation("Dragvoll");
+        room2.setMaxNumber(12);
 
         roomRepo.save(room1);
         roomRepo.save(room2);
