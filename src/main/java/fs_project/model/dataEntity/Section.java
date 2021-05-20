@@ -23,6 +23,13 @@ public class Section {
     )
     private List<Item> items;
 
+    @ManyToOne(cascade=CascadeType.MERGE)
+    @JoinColumn(
+            name="room_id",
+            updatable = true
+    )
+    private Room roomId;
+
     public Section(long id, String name, List<Item> items) {
         this.id = id;
         this.name = name;
@@ -31,6 +38,14 @@ public class Section {
 
     public Section() {
 
+    }
+
+    public Room getRoomId() {
+        return roomId;
+    }
+
+    public void setRoomId(Room roomId) {
+        this.roomId = roomId;
     }
 
     public long getId() {

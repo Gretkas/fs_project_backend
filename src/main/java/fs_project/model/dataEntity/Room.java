@@ -13,8 +13,11 @@ public class Room {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    private String description;
+    private String location;
+
     private String name;
-    @OneToMany(cascade=CascadeType.ALL)
+    @OneToMany(cascade=CascadeType.MERGE)
     @JoinTable(
             name="room_item",
             joinColumns = @JoinColumn(name = "room_id"),
@@ -22,7 +25,7 @@ public class Room {
     )
     private List<Item> items;
 
-    @ManyToMany(cascade=CascadeType.ALL)
+    @OneToMany(cascade=CascadeType.ALL)
     @JoinTable(
             name="room_section",
             joinColumns = @JoinColumn(name = "room_id"),
@@ -30,9 +33,10 @@ public class Room {
     )
     private List<Section> sections;
 
-
-    public Room(long id, String name, List<Item> items, List<Section> sections) {
+    public Room(long id, String description, String location, String name, List<Item> items, List<Section> sections) {
         this.id = id;
+        this.description = description;
+        this.location = location;
         this.name = name;
         this.items = items;
         this.sections = sections;
@@ -42,6 +46,22 @@ public class Room {
 
     }
 
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
 
     public long getId() {
         return id;

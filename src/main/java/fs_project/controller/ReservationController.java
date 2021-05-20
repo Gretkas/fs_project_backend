@@ -1,5 +1,8 @@
 package fs_project.controller;
 
+import fs_project.mapping.dto.AvailableItemsRequest;
+import fs_project.mapping.dto.ReservationRequestDto;
+import fs_project.mapping.dto.ReservationResponse;
 import fs_project.model.dataEntity.Reservation;
 import fs_project.model.requestModel.ReservationAvailabilityRequestModel;
 import fs_project.model.requestModel.ReservationPostRequestModel;
@@ -11,8 +14,11 @@ import fs_project.service.ReservationService;
 import javassist.tools.web.BadHttpRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.security.Principal;
 import java.util.Set;
 
@@ -31,8 +37,9 @@ public class ReservationController {
         return ResponseEntity.ok(reservationService.getReservation(id));
     }
 
-    @GetMapping(value = "/available", produces = APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/available", produces = APPLICATION_JSON_VALUE)
     public ResponseEntity<ReservationAvailabilityResponseModel> getAvailableReservations(@RequestBody ReservationAvailabilityRequestModel reservationAvailabilityRequestModel){
+        System.out.println(reservationAvailabilityRequestModel.toString());
         return ResponseEntity.ok(reservationService.getAvailableReservations(reservationAvailabilityRequestModel));
     }
 
@@ -56,7 +63,8 @@ public class ReservationController {
         return ResponseEntity.ok(reservationService.updateReservation(reservation, id));
     }
     @PostMapping(value="", produces = APPLICATION_JSON_VALUE)
-    public ResponseEntity<Reservation> postReservation(@RequestBody ReservationPostRequestModel reservation) throws BadHttpRequest {
+    @Validated
+    public ResponseEntity<ReservationResponse> postReservation(@NotNull @RequestBody @Validated ReservationRequestDto reservation) throws BadHttpRequest {
         return ResponseEntity.ok(reservationService.createReservation(reservation));
     }
 

@@ -1,11 +1,6 @@
-package fs_project.model.requestModel;
+package fs_project.mapping.dto;
 
-import fs_project.mapping.dto.ItemReservationDto;
 import fs_project.model.Attributes.ReservationType;
-import fs_project.model.dataEntity.Item;
-import fs_project.model.dataEntity.Reservation;
-import fs_project.model.dataEntity.User;
-import javassist.tools.web.BadHttpRequest;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -15,11 +10,10 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
 
 @Data
 @NoArgsConstructor
-public class ReservationPostRequestModel {
+public abstract class ReservationResponse {
 
     @NotNull
     @FutureOrPresent
@@ -34,13 +28,16 @@ public class ReservationPostRequestModel {
     private List<ItemReservationDto> items;
 
     @NotNull
-    private ReservationType type;
-  
+    private UserDescription user;
+
+//    @NotNull
+    private String roomName;
+
     @NotNull
-    private String title;
+    private ReservationType type;
 
     @AssertTrue
     final public boolean isValidDateRange() {
-        return startTime.isBefore(endTime);
+        return startTime.isBefore(endTime) || startTime.isEqual(endTime);
     }
 }
