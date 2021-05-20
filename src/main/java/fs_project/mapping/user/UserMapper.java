@@ -1,6 +1,7 @@
 package fs_project.mapping.user;
 
 import fs_project.mapping.dto.UserDescription;
+import fs_project.mapping.dto.UserResponseModel;
 import fs_project.mapping.dto.users.CreateUserDto;
 import fs_project.model.dataEntity.User;
 import lombok.NonNull;
@@ -20,6 +21,7 @@ import javax.validation.Valid;
 public abstract class UserMapper {
 
     public abstract UserDescription userToUserDescription(User user);
+    public abstract UserResponseModel userToUserResponseModel(User user);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "password", ignore = true)

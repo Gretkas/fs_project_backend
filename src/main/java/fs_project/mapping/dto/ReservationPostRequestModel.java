@@ -1,4 +1,4 @@
-package fs_project.model.requestModel;
+package fs_project.mapping.dto;
 
 import fs_project.mapping.dto.ItemReservationDto;
 import fs_project.model.Attributes.ReservationType;

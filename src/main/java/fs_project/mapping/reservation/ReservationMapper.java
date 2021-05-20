@@ -15,6 +15,7 @@ import fs_project.model.dataEntity.Item;
 import fs_project.model.dataEntity.Reservation;
 import fs_project.model.dataEntity.Room;
 import org.mapstruct.*;
+import org.springframework.data.domain.Page;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -33,7 +34,23 @@ import java.util.List;
 
 
 )
-public abstract class ReservationMapper {
+public interface ReservationMapper {
+
+    default Page<ReservationResponseModel> reservationPageToReservationResponseModelPage(Page<Reservation> reservations){
+        return reservations.map(this::reservationToReservationResponseModel);
+    };
+
+    public default ReservationResponseModel reservationToReservationResponseModel(Reservation reservation) {
+        if ( reservation == null ) {
+            return null;
+        }
+
+        ReservationResponseModel reservationResponseModel = new ReservationResponseModel(reservation);
+
+
+        return reservationResponseModel;
+    }
+
 
     @Mappings({
             // whole source obj is available for expression
@@ -55,7 +72,7 @@ public abstract class ReservationMapper {
     public abstract Item itemReservationDtoToItem(ItemReservationDto itemReservationDto);
 
 
-    public Long roomToRoomId(Room room) {
+    public default Long roomToRoomId(Room room) {
         if (room == null) return null;
 
         return room.getId() != -1 ? room.getId() : null;
@@ -86,7 +103,7 @@ public abstract class ReservationMapper {
 //    }
 
     @AfterMapping
-    public void setMaintenanceReservationResult(
+    public default void setMaintenanceReservationResult(
             @MappingTarget MaintenanceReservationResponse maintenanceReservation,
             // NB! mapstruct does perform null checks on context
             @NotNull @NotEmpty @Context String result

@@ -105,4 +105,16 @@ public class Room {
     public void setSections(List<Section> sections) {
         this.sections = sections;
     }
+
+    @Override
+    public String toString() {
+        return "Room{" +
+                "id=" + id +
+                ", description='" + description + '\'' +
+                ", location='" + location + '\'' +
+                ", name='" + name + '\'' +
+                ", items=" + items +
+                ", sections=" + sections +
+                '}';
+    }
 }

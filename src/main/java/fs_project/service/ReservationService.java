@@ -1,10 +1,6 @@
 package fs_project.service;
 
-import fs_project.exceptions.BadRequestException;
-import fs_project.exceptions.FatalException;
-import fs_project.exceptions.ResponseErrStatus;
-import fs_project.exceptions.ServerErrorException;
-import fs_project.mapping.dto.AvailableItemsRequest;
+import fs_project.exceptions.*;
 import fs_project.mapping.dto.ReservationRequestDto;
 import fs_project.mapping.dto.ReservationResponse;
 import fs_project.mapping.item.ItemMapper;
@@ -13,14 +9,17 @@ import fs_project.model.Attributes.ReservationType;
 import fs_project.model.dataEntity.Item;
 import fs_project.model.dataEntity.Reservation;
 import fs_project.model.dataEntity.User;
-import fs_project.model.requestModel.ReservationAvailabilityRequestModel;
-import fs_project.model.requestModel.ReservationPostRequestModel;
-import fs_project.model.responseModel.ReservationAvailabilityResponseModel;
-import fs_project.model.responseModel.ReservationResponseModel;
+import fs_project.model.filter.ReservationPage;
+import fs_project.model.filter.ReservationSearchCriteria;
+import fs_project.mapping.dto.ReservationAvailabilityRequestModel;
+import fs_project.mapping.dto.ReservationAvailabilityResponseModel;
+import fs_project.mapping.dto.ReservationResponseModel;
+import fs_project.repo.ReservationCriteriaRepo;
 import fs_project.repo.ReservationRepo;
 import fs_project.repo.UserRepo;
 import javassist.tools.web.BadHttpRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +34,8 @@ import java.util.Set;
 public class ReservationService {
     @Autowired
     ReservationRepo reservationRepo;
+    @Autowired
+    ReservationCriteriaRepo reservationCriteriaRepo;
     @Autowired
     UserRepo userRepo;
 
@@ -123,8 +124,14 @@ public class ReservationService {
     }
 
     public boolean deleteReservation(long id) {
-        reservationRepo.deleteById(id);
-        return true;
+        Reservation r = reservationRepo.getOne(id);
+        if(r.getUser() == userService.getThisUser() || userService.getThisUser().getRole().equals("ADMIN")){
+            reservationRepo.deleteById(id);
+            return true;
+        }
+        else{
+            throw new UnauthorizedException(ResponseErrStatus.FORBIDDEN_ROLE, "you cant delete another users reservations");
+        }
     }
 
     public Set<ReservationResponseModel> getReservations() {
@@ -156,5 +163,9 @@ public class ReservationService {
         Set<ReservationResponseModel> rrm = new HashSet<ReservationResponseModel>();
         reservationRepo.getReservationHistoryByUser(userService.getThisUser().getId()).forEach(reservation -> rrm.add(new ReservationResponseModel(reservation)));
         return rrm;
+    }
+
+    public Page<ReservationResponseModel> getReservationsWithFilter(ReservationPage reservationPage, ReservationSearchCriteria reservationSearchCriteria) {
+        return reservationMapper.reservationPageToReservationResponseModelPage(reservationCriteriaRepo.findAllWithFilters(reservationPage, reservationSearchCriteria));
     }
 }

@@ -46,6 +46,10 @@ public class RoomService {
     }
 
     public List<RoomDTO> getRooms() {
-        return roomMapper.roomListToRoomDTOList(roomRepo.findAll());
+        List<RoomDTO> test = roomMapper.roomListToRoomDTOList(roomRepo.findAll());
+        List<Room> rooms = roomRepo.findAll();
+        rooms.forEach(room -> System.out.println(room.toString()));
+        test.forEach(System.out::println);
+        return test;
     }
 }

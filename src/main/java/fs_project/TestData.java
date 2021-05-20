@@ -114,23 +114,23 @@ public class TestData {
 
 
         Reservation reservation = new Reservation(
-                user1,
+                user2,
                 LocalDateTime.parse("2021-05-21 11:00", formatter),
                 LocalDateTime.parse("2021-05-21 14:00", formatter),
                 ting1,
                 ReservationType.RESERVATION,
-                "Kokeseksjon"
+                "Koking"
         );
         itemRepo.save(koke);
         itemRepo.save(pc);
         itemRepo.save(centrifuge);
 
         Reservation reservation2 = new Reservation(
-                user1,
+                user3,
                 LocalDateTime.parse("2021-05-18 11:00", formatter),
                 LocalDateTime.parse("2021-05-22 14:00", formatter),
                 ting1,
-                ReservationType.RESERVATION,
+                ReservationType.MAINTENANCE,
                 "Kokeseksjon"
         );
 
@@ -149,7 +149,7 @@ public class TestData {
                 LocalDateTime.parse("2021-05-25 14:00", formatter),
                 ting1,
                 ReservationType.RESERVATION,
-                "Kokeseksjon"
+                "Koking"
         );
 
         Section section = new Section();
