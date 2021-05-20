@@ -1,5 +1,7 @@
 package fs_project.service;
 
+import fs_project.mapping.dto.users.CreateUserDto;
+import fs_project.mapping.user.UserMapper;
 import fs_project.model.dataEntity.User;
 import fs_project.model.requestModel.UserRequestModel;
 import fs_project.model.responseModel.UserResponseModel;
@@ -18,6 +20,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -27,6 +31,9 @@ import java.util.stream.Collectors;
 public class UserService implements UserDetailsService {
     @Autowired
     private UserRepo userRepo;
+
+    @Autowired
+    private UserMapper userMapper;
 
     @Override
     public User loadUserByUsername(String username) throws UsernameNotFoundException  {
@@ -41,14 +48,19 @@ public class UserService implements UserDetailsService {
         return new UserResponseModel(userRepo.getOne(id));
     }
 
-    public UserResponseModel createUser(UserRequestModel userRequestModel) throws BadHttpRequest {
-        if(userRepo.getUserByName(userRequestModel.getUserName()).orElse(null) != null) throw new BadHttpRequest(new Exception("User already exits"));
+    public CreateUserDto createUser(@NotNull @Valid CreateUserDto newUser) throws BadHttpRequest {
+        User user = userMapper.createUserToUser(newUser);
+        CreateUserDto createUserResponse = userMapper.userToCreateUser(userRepo.save(user));
 
-        User user = userRequestModel.convert();
-        userRepo.save(user);
-
-        UserResponseModel userResponseModel = new UserResponseModel(user);
-        return userResponseModel;
+        return createUserResponse;
+//
+//        if(userRepo.getUserByName(userRequestModel.getUserName()).orElse(null) != null) throw new BadHttpRequest(new Exception("User already exits"));
+//
+//        User user = userRequestModel.convert();
+//        userRepo.save(user);
+//
+//        UserResponseModel userResponseModel = new UserResponseModel(user);
+//        return userResponseModel;
     }
 
     public User getThisUser() {
