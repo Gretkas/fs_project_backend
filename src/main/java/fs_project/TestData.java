@@ -127,7 +127,8 @@ public class TestData {
                 LocalDateTime.parse("2021-05-18 11:00", formatter),
                 LocalDateTime.parse("2021-05-22 14:00", formatter),
                 ting1,
-                ReservationType.RESERVATION
+                ReservationType.RESERVATION,
+                "Kokeseksjon"
         );
 
         Reservation reservation3 = new Reservation(

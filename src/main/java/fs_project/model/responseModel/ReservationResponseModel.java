@@ -14,7 +14,9 @@ public class ReservationResponseModel {
     private Set<ItemResponseModel> items;
     private LocalDateTime startTime, endTime;
     private String roomName;
+    private long id;
     ReservationType type;
+    private String title;
 
 
     public ReservationResponseModel(Reservation reservation) {
@@ -25,6 +27,17 @@ public class ReservationResponseModel {
         this.endTime = reservation.getEndTime();
         this.type = reservation.getType();
         this.roomName = reservation.getItems().get(0).getRoom().getName();
+        this.id = reservation.getId();
+        this.title = reservation.getTitle();
+
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getRoomName() {
@@ -76,5 +89,13 @@ public class ReservationResponseModel {
 
     public void setType(ReservationType type) {
         this.type = type;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }
