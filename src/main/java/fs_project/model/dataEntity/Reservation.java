@@ -45,18 +45,18 @@ public class Reservation {
     @Column(name="type")
     private ReservationType type;
 
-    public Reservation( User user, LocalDateTime startTime, LocalDateTime endTime, List<Item> items, ReservationType type) {
+    private String title;
 
+    public Reservation( User user, LocalDateTime startTime, LocalDateTime endTime, List<Item> items, ReservationType type, String title) {
         this.user = user;
         this.startTime = startTime;
         this.endTime = endTime;
         this.items = items;
         this.type = type;
+        this.title = title;
     }
 
-    public Reservation() {
-
-    }
+    public Reservation() {}
 
     public boolean[][] toTimeTable() {
         boolean[][] timeTable = new boolean[7][10];
@@ -146,6 +146,14 @@ public class Reservation {
 
     public void setType(ReservationType type) {
         this.type = type;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     @Override
