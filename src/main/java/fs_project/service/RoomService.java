@@ -36,8 +36,9 @@ public class RoomService {
         return null;
     }
 
-    public Room deleteRoom(long id) {
-        return null;
+    public boolean deleteRoom(long id) {
+        roomRepo.deleteById(id);
+        return true;
     }
 
     public Page<RoomDTO> getRoomsWithFilters(RoomPage roomPage, RoomSearchCriteria roomSearchCriteria) {

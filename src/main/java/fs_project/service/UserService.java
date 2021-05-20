@@ -76,4 +76,9 @@ public class UserService implements UserDetailsService {
         userRepo.save(currentUser);
         return new UserResponseModel(currentUser);
     }
+
+    public boolean deleteUser(long id) {
+        userRepo.deleteById(id);
+        return true;
+    }
 }
