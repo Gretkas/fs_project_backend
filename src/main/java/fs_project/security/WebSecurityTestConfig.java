@@ -77,7 +77,7 @@ public class WebSecurityTestConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .withUser("admin")
                 .password("{noop}admin")
-                .roles("USER")
+                .roles("ADMIN")
                 .and()
                 .withUser("1234")
                 .password("{noop}1234")

@@ -1,9 +1,6 @@
 package fs_project.service;
 
-import fs_project.exceptions.BadRequestException;
-import fs_project.exceptions.FatalException;
-import fs_project.exceptions.ResponseErrStatus;
-import fs_project.exceptions.ServerErrorException;
+import fs_project.exceptions.*;
 import fs_project.mapping.dto.AvailableItemsRequest;
 import fs_project.mapping.dto.ReservationRequestDto;
 import fs_project.mapping.dto.ReservationResponse;
@@ -21,6 +18,7 @@ import fs_project.repo.ReservationRepo;
 import fs_project.repo.UserRepo;
 import javassist.tools.web.BadHttpRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -123,8 +121,14 @@ public class ReservationService {
     }
 
     public boolean deleteReservation(long id) {
-        reservationRepo.deleteById(id);
-        return true;
+        Reservation r = reservationRepo.getOne(id);
+        if(r.getUser() == userService.getThisUser() || userService.getThisUser().getRole().equals("ADMIN")){
+            reservationRepo.deleteById(id);
+            return true;
+        }
+        else{
+            throw new UnauthorizedException(ResponseErrStatus.FORBIDDEN_ROLE, "you cant delete another users reservations");
+        }
     }
 
     public Set<ReservationResponseModel> getReservations() {

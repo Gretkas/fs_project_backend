@@ -59,9 +59,9 @@ public class UserService implements UserDetailsService {
                 .getName());
     }
 
-    public Set<UserResponseModel> getUsers() {
-        Set<User> users = new HashSet<>(userRepo.findAll());
-        return users.stream().map(UserResponseModel::new).collect(Collectors.toSet());
+    public List<UserResponseModel> getUsers() {
+        List<User> users = userRepo.findAll();
+        return users.stream().map(UserResponseModel::new).collect(Collectors.toList());
     }
 
     public UserResponseModel changeUser(UserRequestModel userRequestModel, long id) throws Exception {
