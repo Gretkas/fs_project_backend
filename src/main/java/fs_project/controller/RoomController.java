@@ -50,7 +50,7 @@ public class RoomController {
     }
 
     @DeleteMapping(value="/{id}", produces = APPLICATION_JSON_VALUE)
-    public ResponseEntity<Room> deleteRoom(@PathVariable long id){
+    public ResponseEntity<Boolean> deleteRoom(@PathVariable long id){
         return ResponseEntity.ok(roomService.deleteRoom(id));
     }
 
