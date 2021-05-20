@@ -16,6 +16,8 @@ public class Room {
     private String description;
     private String location;
 
+    private int maxNumber;
+
     private String name;
     @OneToMany(cascade=CascadeType.MERGE)
     @JoinTable(
@@ -90,6 +92,15 @@ public class Room {
     public List<Section> getSections() {
         return sections;
     }
+
+    public int getMaxNumber() {
+        return maxNumber;
+    }
+
+    public void setMaxNumber(int maxNumber) {
+        this.maxNumber = maxNumber;
+    }
+
 
     public void setSections(List<Section> sections) {
         this.sections = sections;
