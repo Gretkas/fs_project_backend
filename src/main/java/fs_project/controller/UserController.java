@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Set;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
@@ -28,7 +29,7 @@ public class UserController {
     }
 
     @GetMapping(value="/users", produces = APPLICATION_JSON_VALUE)
-    public ResponseEntity<Set<UserResponseModel>> getUsers(){
+    public ResponseEntity<List<UserResponseModel>> getUsers(){
         return ResponseEntity.ok(userService.getUsers());
     }
 

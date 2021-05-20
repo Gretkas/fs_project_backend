@@ -116,7 +116,8 @@ public class TestData {
                 LocalDateTime.parse("2021-05-21 11:00", formatter),
                 LocalDateTime.parse("2021-05-21 14:00", formatter),
                 ting1,
-                ReservationType.RESERVATION
+                ReservationType.RESERVATION,
+                "Kokeseksjon"
         );
         itemRepo.save(koke);
         itemRepo.save(pc);
@@ -136,7 +137,8 @@ public class TestData {
                 LocalDateTime.parse("2021-05-19 11:00", formatter),
                 LocalDateTime.parse("2021-05-22 14:00", formatter),
                 ting1,
-                ReservationType.RESERVATION
+                ReservationType.RESERVATION,
+                "Kokeseksjon"
         );
 
         Reservation reservation4 = new Reservation(
@@ -144,7 +146,8 @@ public class TestData {
                 LocalDateTime.parse("2021-05-23 11:00", formatter),
                 LocalDateTime.parse("2021-05-25 14:00", formatter),
                 ting1,
-                ReservationType.RESERVATION
+                ReservationType.RESERVATION,
+                "Kokeseksjon"
         );
 
         Section section = new Section();
