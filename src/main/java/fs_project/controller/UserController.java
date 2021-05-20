@@ -1,4 +1,5 @@
 package fs_project.controller;
+import fs_project.mapping.dto.users.CreateUserDto;
 import fs_project.model.dataEntity.Room;
 import fs_project.model.requestModel.UserRequestModel;
 import fs_project.model.responseModel.UserResponseModel;
@@ -6,8 +7,10 @@ import fs_project.service.UserService;
 import javassist.tools.web.BadHttpRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Set;
 
@@ -25,8 +28,9 @@ public class UserController {
     }
 
     @PostMapping("/users")
-    public ResponseEntity<UserResponseModel> createUser(@RequestBody UserRequestModel userRequestModel) throws BadHttpRequest {
-        return ResponseEntity.ok(userService.createUser(userRequestModel));
+    public ResponseEntity<CreateUserDto> createUser
+            (@RequestBody @NotNull @Validated CreateUserDto newUser) throws BadHttpRequest {
+        return ResponseEntity.ok(userService.createUser(newUser));
     }
 
     @GetMapping(value="/users", produces = APPLICATION_JSON_VALUE)
