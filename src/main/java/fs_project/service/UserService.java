@@ -1,5 +1,6 @@
 package fs_project.service;
 
+import fs_project.mapping.dto.users.CreateUserDto;
 import fs_project.mapping.user.UserMapper;
 import fs_project.model.dataEntity.User;
 import fs_project.mapping.dto.UserRequestModel;
@@ -12,15 +13,19 @@ import javassist.tools.web.BadHttpRequest;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class UserService implements UserDetailsService {
     @Autowired
     private UserRepo userRepo;
+
     @Autowired
-    UserMapper userMapper;
+    private UserMapper userMapper;
 
     @Override
     public User loadUserByUsername(String username) throws UsernameNotFoundException  {
@@ -31,17 +36,30 @@ public class UserService implements UserDetailsService {
         return user;
     }
 
-    public UserResponseModel getUser(long id) {
-        return userMapper.userToUserResponseModel(userRepo.getOne(id));
+
+    // todo NB! admin only!
+    public CreateUserDto getUser(Long id) {
+        @NotNull User user = userRepo.findUserById(id).orElse(null); // todo throw exception
+        @Valid CreateUserDto getUserResponse = userMapper.userToCreateUser(user);
+        return getUserResponse;
     }
 
-    public UserResponseModel createUser(UserRequestModel userRequestModel) throws BadHttpRequest {
-        if(userRepo.getUserByName(userRequestModel.getUserName()).orElse(null) != null) throw new BadHttpRequest(new Exception("User already exits"));
+    public CreateUserDto updateUser(@NotNull @Valid CreateUserDto newUserData, @NotNull Long id) {
+        @Valid User newUser = userMapper.createUserToUser(newUserData);
+        @Valid @NotNull User currentUser = Optional.of(userRepo.findUserById(id).get()).orElse(null);
+        if (currentUser != null) {
+            newUser.setId(currentUser.getId());
+        }
+        @Valid @NotNull CreateUserDto createUserResponse = userMapper.userToCreateUser(userRepo.save(newUser));
 
-        User user = userRequestModel.convert();
-        userRepo.save(user);
+        return createUserResponse;
+    }
 
-        return userMapper.userToUserResponseModel(user);
+    public CreateUserDto createUser(@NotNull @Valid CreateUserDto newUser) throws BadHttpRequest {
+        User user = userMapper.createUserToUser(newUser);
+        userRepo.findUserByEmail(user.getEmail()).ifPresent(existingUser -> user.setId(existingUser.getId()));
+        CreateUserDto createUserResponse = userMapper.userToCreateUser(userRepo.save(user));
+        return createUserResponse;
     }
 
     public User getThisUser() {
