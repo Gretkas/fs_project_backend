@@ -30,13 +30,20 @@ public class ReservationAvailabilityResponseModel {
     public void addItemToTimeTable(Set<Reservation> itemReservations){
         System.out.println(itemReservations);
         for (Reservation r: itemReservations) {
-            int day = (int)LocalDate.now().until(r.getStartTime().toLocalDate(), ChronoUnit.DAYS);
-            if(day > 6) return;
-            boolean[] reservationTimeTable = r.toTimeTable();
-            System.out.println(Arrays.toString(reservationTimeTable));
-            for (int i = 0; i < 10; i++) {
-                timetable[day][i] |= reservationTimeTable[i];
+            int startDay = (int)LocalDate.now().until(r.getStartTime().toLocalDate(), ChronoUnit.DAYS);
+            int endDay = (int)LocalDate.now().until(r.getEndTime().toLocalDate(), ChronoUnit.DAYS);
+            if(startDay > 6 || endDay < 0 || startDay > endDay) return;
+            if(startDay < 0) startDay = 0;
+            if(endDay > 6 ) endDay=6;
+            boolean[][] reservationTimeTable = r.toTimeTable();
+
+
+            for (int i = startDay; i < endDay+1 ; i++) {
+                for (int j = 0; j < 10; j++) {
+                    timetable[i][j] |= reservationTimeTable[i][j];
+                }
             }
+
         }
     }
 

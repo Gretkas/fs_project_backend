@@ -1,4 +1,4 @@
-package fs_project.mapping.availability;
+/*package fs_project.mapping.availability;
 
 import fs_project.mapping.dto.AvailableItemsResponse;
 import fs_project.mapping.dto.ItemAvailability;
@@ -71,4 +71,4 @@ public abstract class AvailabilityMapper {
 //        return res;
 //    }
 
-}
+}*/

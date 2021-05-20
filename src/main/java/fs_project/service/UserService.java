@@ -71,9 +71,9 @@ public class UserService implements UserDetailsService {
                 .getName());
     }
 
-    public Set<UserResponseModel> getUsers() {
-        Set<User> users = (Set<User>) userRepo.findAll();
-        return users.stream().map(UserResponseModel::new).collect(Collectors.toSet());
+    public List<UserResponseModel> getUsers() {
+        List<User> users = userRepo.findAll();
+        return users.stream().map(UserResponseModel::new).collect(Collectors.toList());
     }
 
     public UserResponseModel changeUser(UserRequestModel userRequestModel, long id) throws Exception {
@@ -88,5 +88,10 @@ public class UserService implements UserDetailsService {
 
         userRepo.save(currentUser);
         return new UserResponseModel(currentUser);
+    }
+
+    public boolean deleteUser(long id) {
+        userRepo.deleteById(id);
+        return true;
     }
 }

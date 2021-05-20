@@ -1,5 +1,6 @@
 package fs_project.controller;
 import fs_project.mapping.dto.users.CreateUserDto;
+import fs_project.model.dataEntity.Room;
 import fs_project.model.requestModel.UserRequestModel;
 import fs_project.model.responseModel.UserResponseModel;
 import fs_project.service.UserService;
@@ -10,6 +11,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
+import java.util.List;
 import java.util.Set;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
@@ -32,13 +34,18 @@ public class UserController {
     }
 
     @GetMapping(value="/users", produces = APPLICATION_JSON_VALUE)
-    public ResponseEntity<Set<UserResponseModel>> getUsers(){
+    public ResponseEntity<List<UserResponseModel>> getUsers(){
         return ResponseEntity.ok(userService.getUsers());
     }
 
     @PutMapping(value="/users/{id}", produces = APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> changeUser(@RequestBody UserRequestModel userRequestModel, @PathVariable long id) throws Exception {
         return ResponseEntity.ok(userService.changeUser(userRequestModel,id));
+    }
+
+    @DeleteMapping(value="/users/{id}", produces = APPLICATION_JSON_VALUE)
+    public ResponseEntity<Boolean> deleteUser(@PathVariable long id){
+        return ResponseEntity.ok(userService.deleteUser(id));
     }
 
 
