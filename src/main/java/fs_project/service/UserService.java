@@ -44,8 +44,22 @@ public class UserService implements UserDetailsService {
         return user;
     }
 
-    public UserResponseModel getUser(long id) {
-        return new UserResponseModel(userRepo.getOne(id));
+    // todo NB! admin only!
+    public CreateUserDto getUser(Long id) {
+        @NotNull User user = userRepo.findUserById(id).orElse(null); // todo throw exception
+        @Valid CreateUserDto getUserResponse = userMapper.userToCreateUser(user);
+        return getUserResponse;
+    }
+
+    public CreateUserDto updateUser(@NotNull @Valid CreateUserDto newUserData, @NotNull Long id) {
+        @Valid User newUser = userMapper.createUserToUser(newUserData);
+        @Valid @NotNull User currentUser = Optional.of(userRepo.findUserById(id).get()).orElse(null);
+        if (currentUser != null) {
+            newUser.setId(currentUser.getId());
+        }
+        @Valid @NotNull CreateUserDto createUserResponse = userMapper.userToCreateUser(userRepo.save(newUser));
+
+        return createUserResponse;
     }
 
     public CreateUserDto createUser(@NotNull @Valid CreateUserDto newUser) throws BadHttpRequest {
