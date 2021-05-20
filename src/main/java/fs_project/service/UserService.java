@@ -50,6 +50,7 @@ public class UserService implements UserDetailsService {
 
     public CreateUserDto createUser(@NotNull @Valid CreateUserDto newUser) throws BadHttpRequest {
         User user = userMapper.createUserToUser(newUser);
+        userRepo.findUserByEmail(user.getEmail()).ifPresent(existingUser -> user.setId(existingUser.getId()));
         CreateUserDto createUserResponse = userMapper.userToCreateUser(userRepo.save(user));
 
         return createUserResponse;
