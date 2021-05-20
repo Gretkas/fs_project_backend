@@ -19,7 +19,7 @@ public class Room {
     private int maxNumber;
 
     private String name;
-    @OneToMany(cascade=CascadeType.ALL)
+    @OneToMany(cascade=CascadeType.ALL, orphanRemoval = true)
     @JoinTable(
             name="room_item",
             joinColumns = @JoinColumn(name = "room_id"),

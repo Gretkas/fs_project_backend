@@ -2,9 +2,11 @@ package fs_project.service;
 
 import fs_project.mapping.dto.users.CreateUserDto;
 import fs_project.mapping.user.UserMapper;
+import fs_project.model.dataEntity.Reservation;
 import fs_project.model.dataEntity.User;
 import fs_project.mapping.dto.UserRequestModel;
 import fs_project.mapping.dto.UserResponseModel;
+import fs_project.repo.ReservationRepo;
 import fs_project.repo.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -17,6 +19,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,6 +29,9 @@ public class UserService implements UserDetailsService {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private ReservationRepo reservationRepo;
 
     @Override
     public User loadUserByUsername(String username) throws UsernameNotFoundException  {
@@ -89,6 +95,9 @@ public class UserService implements UserDetailsService {
     }
 
     public boolean deleteUser(long id) {
+        User user = userRepo.findUserById(id).get();
+        Set<Reservation> reservations = reservationRepo.getReservationsByUser(user);
+        reservationRepo.deleteAll(reservations);
         userRepo.deleteById(id);
         return true;
     }
