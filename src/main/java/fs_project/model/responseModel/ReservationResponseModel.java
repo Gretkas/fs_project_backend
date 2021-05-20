@@ -17,6 +17,7 @@ public class ReservationResponseModel {
     private long id;
     ReservationType type;
     private String title;
+    private long roomId;
 
 
     public ReservationResponseModel(Reservation reservation) {
@@ -29,7 +30,15 @@ public class ReservationResponseModel {
         this.roomName = reservation.getItems().get(0).getRoom().getName();
         this.id = reservation.getId();
         this.title = reservation.getTitle();
+        this.roomId = reservation.getItems().get(0).getRoom().getId();
+    }
 
+    public long getRoomId() {
+        return roomId;
+    }
+
+    public void setRoomId(long roomId) {
+        this.roomId = roomId;
     }
 
     public long getId() {
