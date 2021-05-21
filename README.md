@@ -23,6 +23,15 @@ Dersom applikasjonen skal kjøres via IDE, kjør “GiddApplication”
 
 Applikasjonen kjører på localhost:8080
 
+## Docker
+
+som en del av byggefasen i CICD pipeline blir prosjektet pakket som en dockercontainer og publisert på sigmundgranaas/fs_backend
+Applikasjonen kjører ved default på port 8080, og har CORS-instillinger for frontend på http://localhost:3000
+
+```
+docker run -it sigmundgranaas/fs_backend
+```
+
 ## Api
 
 ### users
