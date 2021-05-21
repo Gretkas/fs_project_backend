@@ -74,6 +74,7 @@ public class UserService implements UserDetailsService {
      */
     public CreateUserDto updateUser(@NotNull @Valid CreateUserDto newUserData, @NotNull Long id) {
         @Valid User newUser = userMapper.createUserToUser(newUserData);
+        newUser.setPassword(new BCryptPasswordEncoder().encode(newUser.getPassword()));
         @Valid @NotNull User currentUser = Optional.of(userRepo.findUserById(id).get()).orElse(null);
         if (currentUser != null) {
             newUser.setId(currentUser.getId());
