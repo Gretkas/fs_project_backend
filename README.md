@@ -74,7 +74,7 @@ Passordene til brukere blir hashet med BCrypt. Dette gjør at passordene til bru
 
 ### Videre arbeid på sikkerhet:
 
-Selv om applikasjonen allerede dekker sikkerhetskravene for prosjektet(Punkt 1 og 3 i OWASP top 10, SQL Injections og Sensitive Data Exposure)Er dette fortsatt ikke en komplett løsning, da blant annet CSRF protection fortsatt ikke er implementert i backenden vår. Dette betyr at session cookien i prinsippet kan bli stjålet av en angriper. TLS er heller ikke implementert, noe som betyr at kommunikasjon mellom klient og server ikke krypteres.
+Dette er fortsatt ikke en komplett løsning da blant annet CSRF protection fortsatt ikke er implementert i backenden vår. Dette betyr at session cookien i prinsippet kan bli stjålet av en angriper. TLS er heller ikke implementert, noe som betyr at kommunikasjon mellom klient og server ikke krypteres.
 
 ## CI
 
@@ -90,3 +90,13 @@ Sikkerhetsmodulen i prosjektet har to tester som begge kobler seg til APIet. Her
 ### Service:
 
 Testes ved hjelp av integrasjonstester. Metodene for laget under blir mocket. Deretter sjekkes det at returverdien er lik verdien vi forventer å få tilbake.
+
+## Videre arbeid
+
+- Generalisere bruken av DTO-klasser
+- Mer solid error-håndtering og bedre tilbakemeldinger til bruker
+- Flere tester
+- Utvide søk og filtrering for reservasjoner og rom, samt legge til søk og filtrering av brukere
+- Ferdigstille produksjonsmiljø
+- Statistikk for reservasjoner
+- 
