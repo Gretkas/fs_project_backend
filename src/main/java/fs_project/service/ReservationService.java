@@ -14,6 +14,7 @@ import fs_project.model.filter.ReservationSearchCriteria;
 import fs_project.mapping.dto.reservations.ReservationAvailabilityRequestModel;
 import fs_project.mapping.dto.reservations.ReservationAvailabilityResponseModel;
 import fs_project.mapping.dto.reservations.ReservationResponseModel;
+import fs_project.repo.ItemRepo;
 import fs_project.repo.ReservationCriteriaRepo;
 import fs_project.repo.ReservationRepo;
 import fs_project.repo.UserRepo;
@@ -56,7 +57,8 @@ public class ReservationService {
      */
     @Autowired
     UserService userService;
-
+    @Autowired
+    ItemRepo itemRepo;
     @Autowired
     private ReservationMapper reservationMapper;
 
@@ -102,7 +104,7 @@ public class ReservationService {
             // evt. some other handling
             throw new FatalException(ResponseErrStatus.USER_NOT_FOUND, "User session not recognized", e);
         }
-
+        
         r = reservationRepo.save(r);
         if (r.getId() == 0) // save failed due to db problems, or validation fail (foreign key etc)
             throw new ServerErrorException(ResponseErrStatus.DB_SAVE_FAILED, "Could not complete reservation");
