@@ -54,6 +54,12 @@ Bak /auth fins det et endepunkt for autentisering av bruker basert på cookie. D
 Systemet teamet har laget følger trelagsmodellen. En webfrontend(view) et REST-API(controller) og en database(Model). Disse er tre forskjellige logiske og fysiske lag. Frontend er brukerens inngang til applikasjonen, denne kan kun kommunisere med kontrolleren, som inneholder bussiness/domenelogikken for hvordan teamets tjeneste skal fungere. Controlleren vil se hva brukeren ber om og selv gjøre valg for hvilken data som skal hentes fra en eventuell database(eller andre datamedium) og hvordan den skal behandles. Denne dataen vil da bli formatert i henhold til hvilke regler controlleren er programmert til. Til slutt vil dette sendes tilbake til brukerens view, som er ansvarli
 g for hvordan dataen blir presentert. (Fra systemutviklingsprosjekt)
 
+![Untitled Diagram-Page-3](https://user-images.githubusercontent.com/46557903/119190125-394da400-ba7d-11eb-84ed-c4c5bdf2c445.png)
+### Spring-arkitektur
+
+Api-et er delt inn i tre lag. Dette er Presentasjonslaget (HTTP/REST-controller) Businesslaget (services/Userstories), persistence (Repo/DAO). Database er det siste laget, men ikke direkte en del av Spring. Kontrollere er ansvarlig for kommunikasjon gjennom HTTP. De vil bare kalle services for å håndtere kall til forskjellige endepunkter. Serviceklasser er ansvarlig for å utføre logikken knyttet til selve funkjsonaliteten ti produktet. Servicelaget kaller også et CrudRepository som abstraherer bort selve implementasjonen av et lagrinsmedium. 
+
+
 ## Sikkerhet
 
 Tatt fra systemutvikling 2 prosjekt, da sikkerhet er implementert på samme måte 
