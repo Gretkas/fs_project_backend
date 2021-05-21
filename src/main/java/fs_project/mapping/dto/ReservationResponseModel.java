@@ -1,12 +1,10 @@
-package fs_project.model.responseModel;
+package fs_project.mapping.dto;
 
 import fs_project.model.Attributes.ReservationType;
-import fs_project.model.dataEntity.Item;
 import fs_project.model.dataEntity.Reservation;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class ReservationResponseModel {
@@ -17,6 +15,7 @@ public class ReservationResponseModel {
     private long id;
     ReservationType type;
     private String title;
+    private long roomId;
 
 
     public ReservationResponseModel(Reservation reservation) {
@@ -29,7 +28,15 @@ public class ReservationResponseModel {
         this.roomName = reservation.getItems().get(0).getRoom().getName();
         this.id = reservation.getId();
         this.title = reservation.getTitle();
+        this.roomId = reservation.getItems().get(0).getRoom().getId();
+    }
 
+    public long getRoomId() {
+        return roomId;
+    }
+
+    public void setRoomId(long roomId) {
+        this.roomId = roomId;
     }
 
     public long getId() {

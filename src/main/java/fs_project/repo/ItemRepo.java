@@ -14,4 +14,16 @@ public interface ItemRepo extends JpaRepository<Item, Long> {
             nativeQuery = true
     )
     Set<Section> getSectionsByItemLists(List<Item> items);
+
+    @Query(
+            value="SELECT * FROM Item WHERE room_id = ?1",
+            nativeQuery = true
+    )
+    List<Item> getItemsByRoomId(long roomId);
+
+    @Query(
+            value="DELETE Reservation,reservation_item FROM Reservation INNER JOIN reservation_item WHERE Reservation.reservation_id = reservation_item.reservation_id AND reservation_item.item_id = ?1",
+            nativeQuery = true
+    )
+    void deleteReservationByItemId(long itemId);
 }

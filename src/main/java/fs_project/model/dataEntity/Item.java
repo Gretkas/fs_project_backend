@@ -2,6 +2,7 @@ package fs_project.model.dataEntity;
 
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -20,6 +21,14 @@ public class Item {
     )
     private Room roomId;
 
+    @ManyToMany
+    @JoinTable(
+            name="reservation_item",
+            joinColumns = @JoinColumn(name = "item_id"),
+            inverseJoinColumns = @JoinColumn(name = "reservation_id")
+    )
+    private List<Reservation> reservations;
+
     private String name;
 
     public Item(long itemId, Room roomId, String name) {
@@ -30,6 +39,18 @@ public class Item {
 
     public Item() {
 
+    }
+
+    public Room getRoomId() {
+        return roomId;
+    }
+
+    public List<Reservation> getReservations() {
+        return reservations;
+    }
+
+    public void setReservations(List<Reservation> reservations) {
+        this.reservations = reservations;
     }
 
     public long getItemId() {

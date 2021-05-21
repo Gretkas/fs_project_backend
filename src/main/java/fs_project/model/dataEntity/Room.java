@@ -19,7 +19,7 @@ public class Room {
     private int maxNumber;
 
     private String name;
-    @OneToMany(cascade=CascadeType.ALL)
+    @OneToMany(cascade=CascadeType.ALL, orphanRemoval = true)
     @JoinTable(
             name="room_item",
             joinColumns = @JoinColumn(name = "room_id"),
@@ -104,5 +104,17 @@ public class Room {
 
     public void setSections(List<Section> sections) {
         this.sections = sections;
+    }
+
+    @Override
+    public String toString() {
+        return "Room{" +
+                "id=" + id +
+                ", description='" + description + '\'' +
+                ", location='" + location + '\'' +
+                ", name='" + name + '\'' +
+                ", items=" + items +
+                ", sections=" + sections +
+                '}';
     }
 }

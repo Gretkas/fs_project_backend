@@ -2,10 +2,13 @@ package fs_project.service;
 
 import fs_project.mapping.dto.RoomDTO;
 import fs_project.mapping.room.RoomMapper;
+import fs_project.model.dataEntity.Item;
 import fs_project.model.dataEntity.Room;
 import fs_project.model.filter.RoomFilter;
 import fs_project.model.filter.RoomPage;
 import fs_project.model.filter.RoomSearchCriteria;
+import fs_project.repo.ItemRepo;
+import fs_project.repo.ReservationRepo;
 import fs_project.repo.RoomCriteriaRepo;
 import fs_project.repo.RoomRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +26,11 @@ public class RoomService {
     RoomCriteriaRepo roomCriteriaRepo;
     @Autowired
     RoomMapper roomMapper;
+    @Autowired
+    private ItemRepo itemRepo;
+    @Autowired
+    private ReservationRepo reservationRepo;
+
 
     public RoomDTO getRoom(long id) {
         return roomMapper.roomToRoomDTO(roomRepo.getOne(id));
@@ -37,6 +45,9 @@ public class RoomService {
     }
 
     public boolean deleteRoom(long id) {
+        List<Item> items = itemRepo.getItemsByRoomId(id);
+        items.forEach(item -> reservationRepo.deleteAll(item.getReservations()));
+       // itemRepo.deleteAll(items);
         roomRepo.deleteById(id);
         return true;
     }
@@ -46,6 +57,10 @@ public class RoomService {
     }
 
     public List<RoomDTO> getRooms() {
-        return roomMapper.roomListToRoomDTOList(roomRepo.findAll());
+        List<RoomDTO> test = roomMapper.roomListToRoomDTOList(roomRepo.findAll());
+        List<Room> rooms = roomRepo.findAll();
+        rooms.forEach(room -> System.out.println(room.toString()));
+        test.forEach(System.out::println);
+        return test;
     }
 }

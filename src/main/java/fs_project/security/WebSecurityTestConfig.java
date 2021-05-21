@@ -20,7 +20,7 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 @Configuration
 @EnableWebSecurity
 //@EnableGlobalMethodSecurity(prePostEnabled = true)
-@Order(1)
+@Order(2)
 public class WebSecurityTestConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired

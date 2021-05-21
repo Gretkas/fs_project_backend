@@ -1,25 +1,21 @@
 package fs_project.controller;
 
-import fs_project.mapping.dto.AvailableItemsRequest;
 import fs_project.mapping.dto.ReservationRequestDto;
 import fs_project.mapping.dto.ReservationResponse;
 import fs_project.model.dataEntity.Reservation;
-import fs_project.model.requestModel.ReservationAvailabilityRequestModel;
-import fs_project.model.requestModel.ReservationPostRequestModel;
-import fs_project.model.responseModel.ReservationAvailabilityResponseModel;
-import fs_project.model.responseModel.ReservationResponseModel;
-import fs_project.model.responseModel.UserResponseModel;
-import fs_project.repo.ReservationRepo;
+import fs_project.model.filter.ReservationFilter;
+import fs_project.mapping.dto.ReservationAvailabilityRequestModel;
+import fs_project.mapping.dto.ReservationAvailabilityResponseModel;
+import fs_project.mapping.dto.ReservationResponseModel;
 import fs_project.service.ReservationService;
 import javassist.tools.web.BadHttpRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import java.security.Principal;
 import java.util.Set;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
@@ -35,6 +31,11 @@ public class ReservationController {
     @GetMapping(value="/{id}", produces = APPLICATION_JSON_VALUE)
     public ResponseEntity<Reservation> getReservation(@PathVariable long id){
         return ResponseEntity.ok(reservationService.getReservation(id));
+    }
+
+    @PostMapping(value="/filter", produces = APPLICATION_JSON_VALUE)
+    public ResponseEntity<Page<ReservationResponseModel>> getFilteredRooms(@RequestBody ReservationFilter roomFilter){
+        return ResponseEntity.ok(reservationService.getReservationsWithFilter(roomFilter.getReservationPage(), roomFilter.getReservationSearchCriteria()));
     }
 
     @PostMapping(value = "/available", produces = APPLICATION_JSON_VALUE)
