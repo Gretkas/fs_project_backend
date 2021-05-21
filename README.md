@@ -16,8 +16,6 @@ Det er enda ikke satt opp noe konfigurasjon for å bygge en JAR-fil for serveren
 ```
 git clone https://github.com/Gretkas/fs_project_backend.git
 cd fs_project_backend
-git checkout master
-git pull
 mvn spring-boot:run
 ```
 
