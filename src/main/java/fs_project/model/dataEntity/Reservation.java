@@ -11,6 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * The type Reservation.
+ */
 @Entity
 @Table(name = "Reservation")
 public class Reservation {
@@ -47,6 +50,16 @@ public class Reservation {
 
     private String title;
 
+    /**
+     * Instantiates a new Reservation.
+     *
+     * @param user      the user
+     * @param startTime the start time
+     * @param endTime   the end time
+     * @param items     the items
+     * @param type      the type
+     * @param title     the title
+     */
     public Reservation( User user, LocalDateTime startTime, LocalDateTime endTime, List<Item> items, ReservationType type, String title) {
         this.user = user;
         this.startTime = startTime;
@@ -56,8 +69,17 @@ public class Reservation {
         this.title = title;
     }
 
+    /**
+     * Instantiates a new Reservation.
+     */
     public Reservation() {}
 
+    /**
+     * Method used to find the timeframe of the given reservaiton,
+     * maps it in the form of a boolean matrix so it can be easily merged with other reservation timetables for availability checks
+     *
+     * @return the boolean [ ] [ ]
+     */
     public boolean[][] toTimeTable() {
         boolean[][] timeTable = new boolean[7][10];
         int startDay = (int) LocalDate.now().until(startTime.toLocalDate(), ChronoUnit.DAYS);
@@ -100,58 +122,128 @@ public class Reservation {
         return timeTable;
     }
 
+    /**
+     * Gets id.
+     *
+     * @return the id
+     */
     public Long getId() {
         return id;
     }
 
+    /**
+     * Sets id.
+     *
+     * @param id the id
+     */
     public void setId(Long id) {
         this.id = id;
     }
 
+    /**
+     * Gets user.
+     *
+     * @return the user
+     */
     public User getUser() {
         return user;
     }
 
+    /**
+     * Sets user.
+     *
+     * @param user the user
+     */
     public void setUser(User user) {
         this.user = user;
     }
 
+    /**
+     * Gets start time.
+     *
+     * @return the start time
+     */
     public LocalDateTime getStartTime() {
         return startTime;
     }
 
+    /**
+     * Sets start time.
+     *
+     * @param startTime the start time
+     */
     public void setStartTime(LocalDateTime startTime) {
         this.startTime = startTime;
     }
 
+    /**
+     * Gets end time.
+     *
+     * @return the end time
+     */
     public LocalDateTime getEndTime() {
         return endTime;
     }
 
+    /**
+     * Sets end time.
+     *
+     * @param endTime the end time
+     */
     public void setEndTime(LocalDateTime endTime) {
         this.endTime = endTime;
     }
 
+    /**
+     * Gets items.
+     *
+     * @return the items
+     */
     public List<Item> getItems() {
         return items;
     }
 
+    /**
+     * Sets items.
+     *
+     * @param nodes the nodes
+     */
     public void setItems(List<Item> nodes) {
         this.items = nodes;
     }
 
+    /**
+     * Gets type.
+     *
+     * @return the type
+     */
     public ReservationType getType() {
         return type;
     }
 
+    /**
+     * Sets type.
+     *
+     * @param type the type
+     */
     public void setType(ReservationType type) {
         this.type = type;
     }
 
+    /**
+     * Gets title.
+     *
+     * @return the title
+     */
     public String getTitle() {
         return title;
     }
 
+    /**
+     * Sets title.
+     *
+     * @param title the title
+     */
     public void setTitle(String title) {
         this.title = title;
     }

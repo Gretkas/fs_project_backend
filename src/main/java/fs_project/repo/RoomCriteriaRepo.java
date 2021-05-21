@@ -29,10 +29,10 @@ public class RoomCriteriaRepo {
     }
 
     /**
-     * Yields a page containing activities which conform to the criteria.
+     * Yields a page containing rooms which conform to the criteria.
      * @param roomPage Specifies how returned page should be formatted.
-     * @param roomSearchCriteria Criteria for which activities to retreive.
-     * @return Page of various activities.
+     * @param roomSearchCriteria Criteria for which rooms to retreive.
+     * @return Page of various rooms.
      */
 
     public Page<Room> findAllWithFilters(RoomPage roomPage,

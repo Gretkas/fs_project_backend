@@ -18,6 +18,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+
+/**
+ * The type Test data. Adds test data to the database
+ */
 @Component
 public class TestData {
     private final boolean TESTDATA_ENABLED = true;
@@ -26,8 +30,10 @@ public class TestData {
     @Autowired
     private ReservationRepo reservationRepo;
 
+
     @Autowired
     ItemRepo itemRepo;
+
 
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
