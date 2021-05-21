@@ -21,6 +21,8 @@ mvn spring-boot:run
 
 Dersom applikasjonen skal kjøres via IDE, kjør “GiddApplication”
 
+Applikasjonen kjører på localhost:8080
+
 ## Sikkerhet
 
 Tatt fra systemutvikling 2 prosjekt, da sikkerhet er implementert på samme måte 
