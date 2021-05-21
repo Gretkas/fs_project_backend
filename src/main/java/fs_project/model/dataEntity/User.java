@@ -50,6 +50,22 @@ public class User implements UserDetails {
         this.role = role;
     }
 
+
+    /**
+     * Instantiates a new User.
+     *
+     * @param userName the user name
+     * @param password the password
+     * @param role     the role
+     * @param email    the email
+     */
+    public User(String userName, String password, String role, String email) {
+        this.userName = userName;
+        this.password = password;
+        this.role = role;
+        this.email = email;
+    }
+
     /**
      * Instantiates a new User.
      */

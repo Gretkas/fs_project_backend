@@ -30,6 +30,10 @@ public class UserResponseModel {
     @Positive
     private long id;
 
+    @NotNull
+    @NotBlank
+    private String email;
+
 
     /**
      * Instantiates a new User response model.
@@ -40,7 +44,6 @@ public class UserResponseModel {
         this.userName = user.getUserName();
         this.role = user.getRole();
         this.id = user.getId();
+        this.email = user.getEmail();
     }
-
-
 }

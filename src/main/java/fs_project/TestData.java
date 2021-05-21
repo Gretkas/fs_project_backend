@@ -50,12 +50,12 @@ public class TestData {
     private void postConstruct() {
         if (!TESTDATA_ENABLED) return;
 
-        User user1 = new User("admin",new BCryptPasswordEncoder().encode("admin"),"ADMIN");
-        User user2 = new User("1234",new BCryptPasswordEncoder().encode("1234"),"USER");
-        User user3 = new User("test2",new BCryptPasswordEncoder().encode("password"),"USER");
-        User user4 = new User("test3",new BCryptPasswordEncoder().encode("password"),"USER");
-        User user5 = new User("test4",new BCryptPasswordEncoder().encode("password"),"USER");
-        User user6 = new User("test5",new BCryptPasswordEncoder().encode("password"),"USER");
+        User user1 = new User("admin",new BCryptPasswordEncoder().encode("admin"),"ADMIN", "admin@admin.no");
+        User user2 = new User("1234",new BCryptPasswordEncoder().encode("1234"),"USER", "user@user.no");
+        User user3 = new User("test2",new BCryptPasswordEncoder().encode("password"),"USER", "user@user.no");
+        User user4 = new User("test3",new BCryptPasswordEncoder().encode("password"),"USER", "user@user.no");
+        User user5 = new User("test4",new BCryptPasswordEncoder().encode("password"),"USER", "user@user.no");
+        User user6 = new User("test5",new BCryptPasswordEncoder().encode("password"),"USER", "user@user.no");
 
         Room room1 = new Room();
 
