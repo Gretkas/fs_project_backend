@@ -4,6 +4,7 @@ import fs_project.model.Attributes.ReservationType;
 import fs_project.model.dataEntity.*;
 import fs_project.repo.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 
@@ -43,12 +44,12 @@ public class TestData {
     private void postConstruct() {
         if (!TESTDATA_ENABLED) return;
 
-        User user1 = new User("admin","admin","ADMIN");
-        User user2 = new User("1234","1234","USER");
-        User user3 = new User("test2","password","USER");
-        User user4 = new User("test3","password","USER");
-        User user5 = new User("test4","password","USER");
-        User user6 = new User("test5","password","USER");
+        User user1 = new User("admin",new BCryptPasswordEncoder().encode("admin"),"ADMIN");
+        User user2 = new User("1234",new BCryptPasswordEncoder().encode("1234"),"USER");
+        User user3 = new User("test2",new BCryptPasswordEncoder().encode("password"),"USER");
+        User user4 = new User("test3",new BCryptPasswordEncoder().encode("password"),"USER");
+        User user5 = new User("test4",new BCryptPasswordEncoder().encode("password"),"USER");
+        User user6 = new User("test5",new BCryptPasswordEncoder().encode("password"),"USER");
 
         Room room1 = new Room();
 

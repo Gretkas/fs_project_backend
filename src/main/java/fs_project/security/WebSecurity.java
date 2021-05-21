@@ -2,6 +2,7 @@
 package fs_project.security;
 
 
+import fs_project.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,13 +28,13 @@ import java.util.List;
 
 @Configuration
 @EnableWebSecurity
-@Order(2)
+@Order(1)
 public class WebSecurity extends WebSecurityConfigurerAdapter {
-    private final UserDetailsService userDetailsService;
+    private final UserService userDetailsService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
 
-    public WebSecurity(UserDetailsService userDetailService) {
+    public WebSecurity(UserService userDetailService) {
         this.userDetailsService = userDetailService;
         this.bCryptPasswordEncoder = new BCryptPasswordEncoder();
     }
@@ -47,32 +48,38 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-            // by default uses a Bean by the name of corsConfigurationSource
-            .cors()
-            .and()
-            .csrf().disable()
-            .authorizeRequests()
-            .antMatchers(HttpMethod.POST, "/login").authenticated()
-            .antMatchers(HttpMethod.POST, "/user").permitAll()
-            .antMatchers(HttpMethod.POST, "/user/verify/**").permitAll()
-            .antMatchers(HttpMethod.OPTIONS).permitAll()
-            //.antMatchers("/users").hasRole("ADMIN") //ROLE_ADMIN
-            .anyRequest().authenticated()
-            .and()
-            .exceptionHandling()
-            .authenticationEntryPoint(restAuthEntryPoint)
-            .and()
-            .httpBasic()
-            .and()
-            .formLogin().loginProcessingUrl("/login")
-            .successHandler((request,response,authentication) -> {})
-            .failureHandler(failureHandler)
-            .and()
-            .logout()
-            .logoutSuccessHandler((request,response,authentication) -> {})
-            .invalidateHttpSession(true)
-            .deleteCookies("JSESSIONID");
-        ;
+
+                .headers().frameOptions().disable()
+                .and()
+                .cors()
+                .and()
+                .csrf().disable().authorizeRequests()
+                .antMatchers("/h2-console/**").permitAll()
+                .antMatchers("/api/api-docs/**").permitAll()
+                .antMatchers("/v3/**").permitAll()
+                .antMatchers("/api/swagger-ui/**").permitAll()
+                .antMatchers("/users/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST, "/rooms").hasRole("ADMIN")
+                .antMatchers(HttpMethod.PUT, "/rooms").hasRole("ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/rooms").hasRole("ADMIN")
+                .antMatchers(HttpMethod.PUT, "/reservations").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST, "/login").authenticated()
+                .antMatchers(HttpMethod.OPTIONS).permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .exceptionHandling()
+                .authenticationEntryPoint(restAuthEntryPoint)
+                .and()
+                .httpBasic()
+                .and()
+                .formLogin().loginProcessingUrl("/login")
+                .successHandler((request,response,authentication) -> {/*do nothing*/})
+                .failureHandler(failureHandler)
+                .and()
+                .logout()
+                .logoutSuccessHandler((request,response,authentication) -> {/*do nothing*/})
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID");
     }
 
     @Override

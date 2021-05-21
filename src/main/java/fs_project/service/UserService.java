@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import javassist.tools.web.BadHttpRequest;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
@@ -63,6 +64,7 @@ public class UserService implements UserDetailsService {
 
     public CreateUserDto createUser(@NotNull @Valid CreateUserDto newUser) throws BadHttpRequest {
         User user = userMapper.createUserToUser(newUser);
+        user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         userRepo.findUserByEmail(user.getEmail()).ifPresent(existingUser -> user.setId(existingUser.getId()));
         CreateUserDto createUserResponse = userMapper.userToCreateUser(userRepo.save(user));
         return createUserResponse;
