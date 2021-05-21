@@ -45,6 +45,13 @@ Bak /rooms finnes det endpunkter som omhandler henting, oppretting, oppdatering 
 ### auth
 Bak /auth fins det et endepunkt for autentisering av bruker basert på cookie. Dette endepunktet vil returnere brukeren dersom autentisering går gjennom.
 
+## Arkitektur
+
+### Trelagsmodellen
+![Untitled Diagram-Page-2](https://user-images.githubusercontent.com/46557903/119189648-985ee900-ba7c-11eb-9986-4ecd9646713e.png)
+Systemet teamet har laget følger trelagsmodellen. En webfrontend(view) et REST-API(controller) og en database(Model). Disse er tre forskjellige logiske og fysiske lag. Frontend er brukerens inngang til applikasjonen, denne kan kun kommunisere med kontrolleren, som inneholder bussiness/domenelogikken for hvordan teamets tjeneste skal fungere. Controlleren vil se hva brukeren ber om og selv gjøre valg for hvilken data som skal hentes fra en eventuell database(eller andre datamedium) og hvordan den skal behandles. Denne dataen vil da bli formatert i henhold til hvilke regler controlleren er programmert til. Til slutt vil dette sendes tilbake til brukerens view, som er ansvarli
+g for hvordan dataen blir presentert. (Fra systemutviklingsprosjekt)
+
 ## Sikkerhet
 
 Tatt fra systemutvikling 2 prosjekt, da sikkerhet er implementert på samme måte 
