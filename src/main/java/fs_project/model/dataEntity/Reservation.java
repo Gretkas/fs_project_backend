@@ -70,6 +70,17 @@ public class Reservation {
     }
 
     /**
+     * Instantiates a new Reservation. Used for testing purposes.
+     *
+     * @param startTime the start time
+     * @param endTime   the end time
+     */
+    public Reservation(LocalDateTime startTime, LocalDateTime endTime){
+        this.startTime = startTime;
+        this.endTime = endTime;
+    }
+
+    /**
      * Instantiates a new Reservation.
      */
     public Reservation() {}
@@ -95,7 +106,7 @@ public class Reservation {
 
         for (int j = startDay; j < endDay+1; j++) {
             if(startDay==endDay){
-                for (int i = startHour; i < endHour; i++) {
+                for (int i = startHour; i <= endHour; i++) {
                     timeTable[j][i] = true;
                 }
             }
@@ -106,9 +117,7 @@ public class Reservation {
                     }
                 }
                 else if(j == endDay){
-                    System.out.println("I AM HERE");
-                    System.out.println(endHour);
-                    for (int i = 0; i < endHour; i++) {
+                    for (int i = 0; i <= endHour; i++) {
                         timeTable[j][i] = true;
                     }
                 }
