@@ -13,13 +13,13 @@ JDK 11
 Det er enda ikke satt opp noe konfigurasjon for å bygge en JAR-fil for serveren. Instruksjonene gjelder derfor kjøring av backend gjennom en IDE (for eksempel IntelliJ) eller via kommandolinje dersom man har Maven:
 
 /* I terminalen */
-'''
+```
 git clone https://github.com/Gretkas/fs_project_backend.git
 cd fs_project_backend
 git checkout master
 git pull
 mvn spring-boot:run
-'''
+```
 
 Dersom applikasjonen skal kjøres via IDE, kjør “GiddApplication”
 
