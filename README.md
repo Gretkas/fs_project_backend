@@ -23,6 +23,19 @@ Dersom applikasjonen skal kjøres via IDE, kjør “GiddApplication”
 
 Applikasjonen kjører på localhost:8080
 
+## Api
+
+### users
+Bak /users finnes det endepunkter som omhandler henting, oppretting, oppdatering og sletting av brukere. Bare admin har tilgang til disse endepunktene.
+
+### reservations
+Bak /reservations finnes det endepunkter som omhandler henting, oppretting oppdatering og sletting av reservasjon, et endepunkt for å se ledigheten av en viss type reservasjon med tanke på tid, endepunkter for å hente fremtidige eller fortidige reservasjoner basert på bruker, og et endepunkt for sortering, søk og paginering av reservasjoner.
+
+### rooms
+Bak /rooms finnes det endpunkter som omhandler henting, oppretting, oppdatering og sletting av rom. Her fins det også et endepunkt for søk og paginering av rom.
+### auth
+Bak /auth fins det et endepunkt for autentisering av bruker basert på cookie. Dette endepunktet vil returnere brukeren dersom autentisering går gjennom.
+
 ## Sikkerhet
 
 Tatt fra systemutvikling 2 prosjekt, da sikkerhet er implementert på samme måte 
