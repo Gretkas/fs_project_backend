@@ -1,19 +1,19 @@
 package fs_project.service;
 
 import fs_project.exceptions.*;
-import fs_project.mapping.dto.ReservationRequestDto;
-import fs_project.mapping.dto.ReservationResponse;
-import fs_project.mapping.item.ItemMapper;
-import fs_project.mapping.reservation.ReservationMapper;
+import fs_project.mapping.dto.reservations.ReservationRequestDto;
+import fs_project.mapping.dto.reservations.ReservationResponse;
+import fs_project.mapping.mappers.ItemMapper;
+import fs_project.mapping.mappers.ReservationMapper;
 import fs_project.model.Attributes.ReservationType;
 import fs_project.model.dataEntity.Item;
 import fs_project.model.dataEntity.Reservation;
 import fs_project.model.dataEntity.User;
 import fs_project.model.filter.ReservationPage;
 import fs_project.model.filter.ReservationSearchCriteria;
-import fs_project.mapping.dto.ReservationAvailabilityRequestModel;
-import fs_project.mapping.dto.ReservationAvailabilityResponseModel;
-import fs_project.mapping.dto.ReservationResponseModel;
+import fs_project.mapping.dto.reservations.ReservationAvailabilityRequestModel;
+import fs_project.mapping.dto.reservations.ReservationAvailabilityResponseModel;
+import fs_project.mapping.dto.reservations.ReservationResponseModel;
 import fs_project.repo.ReservationCriteriaRepo;
 import fs_project.repo.ReservationRepo;
 import fs_project.repo.UserRepo;
@@ -30,24 +30,48 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * The type Reservation service.
+ */
 @Service
 public class ReservationService {
+    /**
+     * The Reservation repo.
+     */
     @Autowired
     ReservationRepo reservationRepo;
+    /**
+     * The Reservation criteria repo.
+     */
     @Autowired
     ReservationCriteriaRepo reservationCriteriaRepo;
+    /**
+     * The User repo.
+     */
     @Autowired
     UserRepo userRepo;
 
+    /**
+     * The User service.
+     */
     @Autowired
     UserService userService;
 
     @Autowired
     private ReservationMapper reservationMapper;
 
+    /**
+     * The Item mapper.
+     */
     @Autowired
     ItemMapper itemMapper;
 
+    /**
+     * Gets reservation by id,  TODO.
+     *
+     * @param id the id
+     * @return the reservation
+     */
     public Reservation getReservation(long id) {
         return null;
     }
@@ -58,6 +82,13 @@ public class ReservationService {
 //        return r;
 //    }
 
+    /**
+     * Creates reservation checks the reservation type.if reservation is of type maintenance, checks which reservations were overwritten
+     *
+     * @param reservationPostRequestModel the reservation post request model
+     * @return the reservation response
+     * @throws BadHttpRequest the bad http request
+     */
     public ReservationResponse createReservation(@NotNull @Valid ReservationRequestDto reservationPostRequestModel) throws BadHttpRequest {
         @Valid Reservation r = reservationMapper.reservationRequestToReservation(reservationPostRequestModel);
         @Valid User user;
@@ -101,6 +132,12 @@ public class ReservationService {
         return res;
     }
 
+    /**
+     * overwrites reservations affected by maintenance
+     * @param affected
+     * @param maintenanceStart
+     * @param maintenanceEnd
+     */
     private void updateAffectedReservations(@NotNull Set<Reservation> affected, LocalDateTime maintenanceStart, LocalDateTime maintenanceEnd) {
         affected.forEach(r -> {
             if (r.getEndTime().isAfter(maintenanceStart) && r.getEndTime().isBefore(maintenanceEnd)) {
@@ -112,6 +149,11 @@ public class ReservationService {
         });
     }
 
+    /**
+     * finds reservations affected by maintenance
+     * @param reservation
+     * @return
+     */
     private Set<Reservation> findReservationsAffectedBy(@NotNull @Valid Reservation reservation) {
         return reservationRepo
                 .findAffectedReservations
@@ -119,13 +161,26 @@ public class ReservationService {
                                 reservation.getId(), reservation.getItems());
     }
 
+    /**
+     * Update reservation reservation.
+     *
+     * @param reservation the reservation
+     * @param id          the id
+     * @return the reservation
+     */
     public Reservation updateReservation(Reservation reservation, long id) {
         return null;
     }
 
+    /**
+     * Delete reservation boolean.
+     *
+     * @param id the id
+     * @return the boolean
+     */
     public boolean deleteReservation(long id) {
         Reservation r = reservationRepo.getOne(id);
-        if(r.getUser() == userService.getThisUser() || userService.getThisUser().getRole().equals("ADMIN")){
+        if(r.getUser().equals(userService.getThisUser()) || userService.getThisUser().getRole().equals("ADMIN")){
             reservationRepo.deleteById(id);
             return true;
         }
@@ -134,16 +189,33 @@ public class ReservationService {
         }
     }
 
+    /**
+     * Gets reservations.
+     *
+     * @return the reservations
+     */
     public Set<ReservationResponseModel> getReservations() {
         Set<ReservationResponseModel> rrm = new HashSet<ReservationResponseModel>();
         reservationRepo.getUpcomingReservationsByUser(userService.getThisUser().getId()).forEach(reservation -> rrm.add(new ReservationResponseModel(reservation)));
         return rrm;
     }
 
+    /**
+     * Gets user reservations.
+     *
+     * @param id the id
+     * @return the user reservations
+     */
     public Set<Reservation> getUserReservations(long id) {
         return reservationRepo.getReservationsByUser(userRepo.getOne(id));
     }
 
+    /**
+     * Gets available times for a reservation with a given set of itms.
+     *
+     * @param reservationAvailabilityRequestModel the reservation availability request model
+     * @return the available reservations
+     */
     public ReservationAvailabilityResponseModel getAvailableReservations(ReservationAvailabilityRequestModel reservationAvailabilityRequestModel) {
         ReservationAvailabilityResponseModel response = new ReservationAvailabilityResponseModel();
         System.out.println(reservationAvailabilityRequestModel.toString());
@@ -159,12 +231,24 @@ public class ReservationService {
         return response;
     }
 
+    /**
+     * Gets reservation history.
+     *
+     * @return the reservation history
+     */
     public Set<ReservationResponseModel> getReservationHistory() {
         Set<ReservationResponseModel> rrm = new HashSet<ReservationResponseModel>();
         reservationRepo.getReservationHistoryByUser(userService.getThisUser().getId()).forEach(reservation -> rrm.add(new ReservationResponseModel(reservation)));
         return rrm;
     }
 
+    /**
+     * Gets reservations with filter.
+     *
+     * @param reservationPage           the reservation page
+     * @param reservationSearchCriteria the reservation search criteria
+     * @return the reservations with filter
+     */
     public Page<ReservationResponseModel> getReservationsWithFilter(ReservationPage reservationPage, ReservationSearchCriteria reservationSearchCriteria) {
         return reservationMapper.reservationPageToReservationResponseModelPage(reservationCriteriaRepo.findAllWithFilters(reservationPage, reservationSearchCriteria));
     }

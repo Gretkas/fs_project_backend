@@ -1,24 +1,30 @@
-package fs_project.mapping.dto;
+package fs_project.mapping.dto.reservations;
 
-import fs_project.model.dataEntity.Reservation;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
-import java.util.HashSet;
-import java.util.Set;
 
+/**
+ * The type Item reservation dto.
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ItemAvailability {
+public class ItemReservationDto {
 
     @NotNull
     @Positive
     private Long itemId;
 
-    private Set<Reservation> itemReservations = new HashSet<>();
+    @NotNull
+    @Positive
+    private Long roomId;
 
+    @NotNull
+    @NotBlank
+    private String name;
 }

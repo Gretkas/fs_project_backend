@@ -1,16 +1,8 @@
-package fs_project.mapping.reservation;
-
-import fs_project.exceptions.FatalException;
-import fs_project.exceptions.ResponseErrStatus;
+package fs_project.mapping.mappers;
 
 
-import fs_project.mapping.item.ItemMapper;
-import fs_project.mapping.room.RoomMapper;
+import fs_project.mapping.dto.reservations.*;
 
-import fs_project.mapping.dto.*;
-import fs_project.mapping.user.UserMapper;
-
-import fs_project.model.Attributes.ReservationType;
 import fs_project.model.dataEntity.Item;
 import fs_project.model.dataEntity.Reservation;
 import fs_project.model.dataEntity.Room;
@@ -21,6 +13,9 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
+/**
+ * The interface Reservation mapper. Used to map the the reservation data-entity to the correct reservation dto
+ */
 @Mapper(
         /*
          * Policy for each unmapped target's field(s) in any of
@@ -36,10 +31,22 @@ import java.util.List;
 )
 public interface ReservationMapper {
 
+    /**
+     * Reservation page to reservation response model page page.
+     *
+     * @param reservations the reservations
+     * @return the page
+     */
     default Page<ReservationResponseModel> reservationPageToReservationResponseModelPage(Page<Reservation> reservations){
         return reservations.map(this::reservationToReservationResponseModel);
     };
 
+    /**
+     * Reservation to reservation response model reservation response model.
+     *
+     * @param reservation the reservation
+     * @return the reservation response model
+     */
     public default ReservationResponseModel reservationToReservationResponseModel(Reservation reservation) {
         if ( reservation == null ) {
             return null;
@@ -52,6 +59,12 @@ public interface ReservationMapper {
     }
 
 
+    /**
+     * Reservation request to reservation reservation.
+     *
+     * @param reservationRequest the reservation request
+     * @return the reservation
+     */
     @Mappings({
             // whole source obj is available for expression
             @Mapping(target = "user", ignore = true),
@@ -60,48 +73,79 @@ public interface ReservationMapper {
     public abstract Reservation reservationRequestToReservation(
             ReservationRequestDto reservationRequest);
 
-    // TODO implement mapstruct decorator for different reservation response types
+    /**
+     * Reservation to maintenance response maintenance reservation response.
+     *
+     * @param reservation the reservation
+     * @param result      the result
+     * @return the maintenance reservation response
+     */
+// TODO implement mapstruct decorator for different reservation response types
     @Mapping(target = "roomName", ignore = true) // todo implement
     public abstract MaintenanceReservationResponse reservationToMaintenanceResponse
             (Reservation reservation, @NotNull @NotEmpty @Context String result);
 
+    /**
+     * Reservation to standard response standard reservation response.
+     *
+     * @param reservation the reservation
+     * @return the standard reservation response
+     */
     @Mapping(target = "roomName", ignore = true) // todo implement
     public abstract StandardReservationResponse reservationToStandardResponse
             (Reservation reservation);
 
+    /**
+     * Item reservation dto to item item.
+     *
+     * @param itemReservationDto the item reservation dto
+     * @return the item
+     */
     public abstract Item itemReservationDtoToItem(ItemReservationDto itemReservationDto);
 
 
+    /**
+     * Room to room id long.
+     *
+     * @param room the room
+     * @return the long
+     */
     public default Long roomToRoomId(Room room) {
         if (room == null) return null;
 
         return room.getId() != -1 ? room.getId() : null;
     }
 
+    /**
+     * Item reservation set to item set list.
+     *
+     * @param itemReservationSet the item reservation set
+     * @return the list
+     */
     public abstract List<Item> itemReservationSetToItemSet(List<ItemReservationDto> itemReservationSet);
 
+    /**
+     * Item to item reservation dto item reservation dto.
+     *
+     * @param item the item
+     * @return the item reservation dto
+     */
     public abstract ItemReservationDto itemToItemReservationDto(Item item);
 
+    /**
+     * Item set to item reservation set list.
+     *
+     * @param itemSet the item set
+     * @return the list
+     */
     public abstract List<ItemReservationDto> itemSetToItemReservationSet(List<Item> itemSet);
 
-//    /**
-//     * Method that is called whenever mapping to Reservation,
-//     * but only in mapping methods of {@code this} that have {@code reservationType}
-//     * as a parameter.
-//     * @param reservation target
-//     * @param reservationType if provided, this method will be called
-//     */
-//    @AfterMapping
-//    public void finalizeReservation(
-//            @MappingTarget Reservation reservation,
-//            @Context ReservationType reservationType
-//            ) {
-//        if (reservation.getUser() == null)
-//            throw new FatalException(ResponseErrStatus.USER_NOT_FOUND, "User not found");
-//
-//        reservation.setType(reservationType);
-//    }
-
+    /**
+     * Sets maintenance reservation result.
+     *
+     * @param maintenanceReservation the maintenance reservation
+     * @param result                 the result
+     */
     @AfterMapping
     public default void setMaintenanceReservationResult(
             @MappingTarget MaintenanceReservationResponse maintenanceReservation,

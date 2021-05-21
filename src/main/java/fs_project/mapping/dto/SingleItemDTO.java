@@ -9,6 +9,9 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
+/**
+ * The type Single item dto. Contains relevant information about an item.
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

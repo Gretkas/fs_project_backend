@@ -17,6 +17,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * The ReservationCriteriaRepo. Used for reservation-searching, filtering, paging and sorting
+ */
 //fra sys2
 @Repository
 public class ReservationCriteriaRepo {
@@ -30,10 +33,10 @@ public class ReservationCriteriaRepo {
     }
 
     /**
-     * Yields a page containing activities which conform to the criteria.
-     * @param reservationPage Specifies how returned page should be formatted.
-     * @param reservationSearchCriteria Criteria for which activities to retreive.
-     * @return Page of various activities.
+     * Yields a page containing reservations which conform to the criteria.
+     * @param reservationPage Specifies how returned page should be formatted.ii
+     * @param reservationSearchCriteria Criteria for which reservatons to retreive.
+     * @return Page of various reservatons.
      */
 
     public Page<Reservation> findAllWithFilters(ReservationPage reservationPage,
