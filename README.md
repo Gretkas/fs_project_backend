@@ -1,5 +1,28 @@
 # fs_project_backend
 
+## Installasjon
+Tatt fra systemutvikling 2 prosjekt, da installasjon vil fungere på samme måte 
+Du trenger:
+
+Git-klient
+
+Et Java-støttet IDE eller Maven installert
+
+JDK 11
+
+Det er enda ikke satt opp noe konfigurasjon for å bygge en JAR-fil for serveren. Instruksjonene gjelder derfor kjøring av backend gjennom en IDE (for eksempel IntelliJ) eller via kommandolinje dersom man har Maven:
+
+/* I terminalen */
+'''
+git clone https://github.com/Gretkas/fs_project_backend.git
+cd fs_project_backend
+git checkout master
+git pull
+mvn spring-boot:run
+'''
+
+Dersom applikasjonen skal kjøres via IDE, kjør “GiddApplication”
+
 ## Sikkerhet
 
 Tatt fra systemutvikling 2 prosjekt, da sikkerhet er implementert på samme måte 
@@ -27,7 +50,21 @@ Spring Security brukes også for autorisasjon. I dette prosjektet er de 2 nivåe
 
 Passordene til brukere blir hashet med BCrypt. Dette gjør at passordene til brukerne ikke trengs å lagres i databasen, og heller bare en hashet versjon blir det.
 
-### Videre arbeid:
+### Videre arbeid på sikkerhet:
 
 Selv om applikasjonen allerede dekker sikkerhetskravene for prosjektet(Punkt 1 og 3 i OWASP top 10, SQL Injections og Sensitive Data Exposure)Er dette fortsatt ikke en komplett løsning, da blant annet CSRF protection fortsatt ikke er implementert i backenden vår. Dette betyr at session cookien i prinsippet kan bli stjålet av en angriper. TLS er heller ikke implementert, noe som betyr at kommunikasjon mellom klient og server ikke krypteres.
 
+## CI
+
+
+CI Pipeline kjører Maven Verify. Maven Verify kjører alle tester som finnes i prosjektet.
+
+
+### Sikkerhetstester:
+
+Sikkerhetsmodulen i prosjektet har to tester som begge kobler seg til APIet. Her verifiseres det at en ikke-innlogget bruker ikke får tilgang, og motsatt.
+
+
+### Service & Controller:
+
+Testes ved hjelp av integrasjonstester. Metodene for laget under blir mocket. Deretter sjekkes det at returverdien er lik verdien vi forventer å få tilbake.
