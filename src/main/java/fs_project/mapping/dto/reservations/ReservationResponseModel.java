@@ -26,6 +26,7 @@ public class ReservationResponseModel {
     private long roomId;
 
 
+
     /**
      * Instantiates a new Reservation response model.
      *

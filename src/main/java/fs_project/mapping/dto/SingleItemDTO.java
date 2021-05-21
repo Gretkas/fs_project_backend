@@ -17,7 +17,6 @@ import javax.validation.constraints.Positive;
 @AllArgsConstructor
 public class SingleItemDTO {
 
-
     @NotNull
     @Positive
     private long itemId;

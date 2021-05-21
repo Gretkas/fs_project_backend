@@ -180,7 +180,7 @@ public class ReservationService {
      */
     public boolean deleteReservation(long id) {
         Reservation r = reservationRepo.getOne(id);
-        if(r.getUser() == userService.getThisUser() || userService.getThisUser().getRole().equals("ADMIN")){
+        if(r.getUser().equals(userService.getThisUser()) || userService.getThisUser().getRole().equals("ADMIN")){
             reservationRepo.deleteById(id);
             return true;
         }
