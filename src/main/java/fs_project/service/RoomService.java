@@ -55,8 +55,10 @@ public class RoomService {
         if (currentRoom != null) {
             room.setId(currentRoom.getId());
         }
+
         itemRepo.saveAll(room.getItems());
         if(room.getSections() != null && room.getSections().size() > 0){
+            room.getSections().forEach(s -> s.getItems().forEach(itemRepo::save));
             sectionRepo.saveAll(room.getSections());
         }
         room = roomRepo.save(room);
