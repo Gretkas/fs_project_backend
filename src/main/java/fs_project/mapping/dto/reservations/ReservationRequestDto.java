@@ -31,6 +31,9 @@ public class ReservationRequestDto {
     private LocalDateTime endTime;
 
     @NotNull
+    private String title;
+
+    @NotNull
     @NotEmpty
     private List<SingleItemDTO> items;
 
