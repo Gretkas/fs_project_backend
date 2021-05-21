@@ -18,7 +18,6 @@ import java.util.List;
 @NoArgsConstructor
 public class RoomDTO {
 
-    @NotNull
     @Positive
     private Long id;
 
@@ -30,7 +29,6 @@ public class RoomDTO {
     @NotEmpty
     private List<SingleItemDTO> items;
 
-    @NotNull
     private List<SectionDTO> sections;
 
     @NotNull

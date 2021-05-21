@@ -4,17 +4,22 @@ import fs_project.mapping.dto.RoomDTO;
 import fs_project.mapping.mappers.RoomMapper;
 import fs_project.model.dataEntity.Item;
 import fs_project.model.dataEntity.Room;
+import fs_project.model.dataEntity.User;
+import fs_project.model.filter.RoomFilter;
+
 import fs_project.model.filter.RoomPage;
 import fs_project.model.filter.RoomSearchCriteria;
-import fs_project.repo.ItemRepo;
-import fs_project.repo.ReservationRepo;
-import fs_project.repo.RoomCriteriaRepo;
-import fs_project.repo.RoomRepo;
+import fs_project.repo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+
 
 /**
  * The type Room service.
@@ -40,6 +45,8 @@ public class RoomService {
     private ItemRepo itemRepo;
     @Autowired
     private ReservationRepo reservationRepo;
+    @Autowired
+    private SectionRepo sectionRepo;
 
 
     /**
@@ -52,24 +59,35 @@ public class RoomService {
         return roomMapper.roomToRoomDTO(roomRepo.getOne(id));
     }
 
-    /**
-     * Create room room.
-     *
-     * @param reservation the reservation
-     * @return the room
-     */
-    public Room createRoom(Room reservation) {
-        return null;
+
+    public RoomDTO createRoom(RoomDTO roomDTO) {
+        Room room = roomMapper.roomDTOToRoom(roomDTO);
+        itemRepo.saveAll(room.getItems());
+        if(room.getSections() != null && room.getSections().size() > 0){
+            sectionRepo.saveAll(room.getSections());
+        }
+        roomRepo.save(room);
+        return roomDTO;
     }
 
-    /**
-     * Update room room.
-     *
-     * @param reservation the reservation
-     * @return the room
-     */
-    public Room updateRoom(Room reservation) {
-        return null;
+    public RoomDTO updateRoom(@NotNull Long id, @NotNull @Valid RoomDTO roomDTO) {
+        Room room = roomMapper.roomDTOToRoom(roomDTO);
+        @Valid @NotNull Room currentRoom = Optional.of(roomRepo.findRoomById(id).get()).orElse(null);
+        if (currentRoom != null) {
+            room.setId(currentRoom.getId());
+        }
+
+        itemRepo.saveAll(room.getItems());
+        if(room.getSections() != null && room.getSections().size() > 0){
+            room.getSections().forEach(s -> s.getItems().forEach(itemRepo::save));
+            sectionRepo.saveAll(room.getSections());
+        }
+        room = roomRepo.save(room);
+        RoomDTO response = roomMapper.roomToRoomDTO(room);
+
+        return response;
+
+
     }
 
     /**

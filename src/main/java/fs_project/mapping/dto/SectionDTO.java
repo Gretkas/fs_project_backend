@@ -23,7 +23,6 @@ import java.util.List;
 public class SectionDTO {
 
 
-    @NotNull
     @Positive
     private long id;
 
