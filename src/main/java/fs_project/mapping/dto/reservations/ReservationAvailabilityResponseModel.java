@@ -1,4 +1,4 @@
-package fs_project.mapping.dto;
+package fs_project.mapping.dto.reservations;
 
 import fs_project.model.dataEntity.Reservation;
 

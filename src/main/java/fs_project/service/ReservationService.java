@@ -1,19 +1,19 @@
 package fs_project.service;
 
 import fs_project.exceptions.*;
-import fs_project.mapping.dto.ReservationRequestDto;
-import fs_project.mapping.dto.ReservationResponse;
-import fs_project.mapping.item.ItemMapper;
-import fs_project.mapping.reservation.ReservationMapper;
+import fs_project.mapping.dto.reservations.ReservationRequestDto;
+import fs_project.mapping.dto.reservations.ReservationResponse;
+import fs_project.mapping.mappers.ItemMapper;
+import fs_project.mapping.mappers.ReservationMapper;
 import fs_project.model.Attributes.ReservationType;
 import fs_project.model.dataEntity.Item;
 import fs_project.model.dataEntity.Reservation;
 import fs_project.model.dataEntity.User;
 import fs_project.model.filter.ReservationPage;
 import fs_project.model.filter.ReservationSearchCriteria;
-import fs_project.mapping.dto.ReservationAvailabilityRequestModel;
-import fs_project.mapping.dto.ReservationAvailabilityResponseModel;
-import fs_project.mapping.dto.ReservationResponseModel;
+import fs_project.mapping.dto.reservations.ReservationAvailabilityRequestModel;
+import fs_project.mapping.dto.reservations.ReservationAvailabilityResponseModel;
+import fs_project.mapping.dto.reservations.ReservationResponseModel;
 import fs_project.repo.ReservationCriteriaRepo;
 import fs_project.repo.ReservationRepo;
 import fs_project.repo.UserRepo;

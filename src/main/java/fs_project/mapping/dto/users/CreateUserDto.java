@@ -7,6 +7,9 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.*;
 import java.time.LocalDate;
 
+/**
+ * The type Create user dto. Used to create user. checks for field validity
+ */
 @Data
 @NoArgsConstructor
 public class CreateUserDto {

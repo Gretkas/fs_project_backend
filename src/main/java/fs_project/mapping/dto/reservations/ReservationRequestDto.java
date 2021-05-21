@@ -1,5 +1,6 @@
-package fs_project.mapping.dto;
+package fs_project.mapping.dto.reservations;
 
+import fs_project.mapping.dto.SingleItemDTO;
 import fs_project.model.Attributes.ReservationType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,6 +14,9 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * The type Reservation request dto.
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

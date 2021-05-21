@@ -17,6 +17,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * The ReservationCriteriaRepo. Used for reservation-searching, filtering, paging and sorting
+ */
 //fra sys2
 @Repository
 public class ReservationCriteriaRepo {

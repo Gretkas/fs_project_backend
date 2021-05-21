@@ -1,4 +1,4 @@
-package fs_project.mapping.dto;
+package fs_project.mapping.dto.users;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

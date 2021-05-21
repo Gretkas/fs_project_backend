@@ -1,17 +1,16 @@
 package fs_project.service;
 
 import fs_project.mapping.dto.users.CreateUserDto;
-import fs_project.mapping.user.UserMapper;
+import fs_project.mapping.mappers.UserMapper;
 import fs_project.model.dataEntity.Reservation;
 import fs_project.model.dataEntity.User;
-import fs_project.mapping.dto.UserRequestModel;
-import fs_project.mapping.dto.UserResponseModel;
+import fs_project.mapping.dto.users.UserRequestModel;
+import fs_project.mapping.dto.users.UserResponseModel;
 import fs_project.repo.ReservationRepo;
 import fs_project.repo.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import javassist.tools.web.BadHttpRequest;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;

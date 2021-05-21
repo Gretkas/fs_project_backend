@@ -11,6 +11,9 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.util.List;
 
+/**
+ * The type Room dto. Contains relevant information about a room.
+ */
 @Data
 @NoArgsConstructor
 public class RoomDTO {

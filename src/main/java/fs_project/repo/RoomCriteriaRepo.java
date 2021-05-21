@@ -16,6 +16,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * The RoomCriteriaRepo. Used for room-searching, filtering, paging and sorting
+ */
 //fra sys2
 @Repository
 public class RoomCriteriaRepo {
