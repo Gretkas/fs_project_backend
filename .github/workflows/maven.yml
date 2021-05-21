@@ -26,11 +26,8 @@ jobs:
     - name: Tag Image
       run: docker tag fs_project:0.0.1 ${{secrets.DOCKERHUB_USERNAME}}/fs_backend
     - name: Docker login
-      env: 
-        DOCKER_USER: ${{secrets.DOCKERHUB_USERNAME}}
-        DOCKER_SECRET: ${{secrets.DOCKERHUB_SECRET}}
       run: |
-        docker login -u $DOCKER_USER -p $DOCKER_SECRET
+        docker login -u ${{secrets.DOCKERHUB_USERNAME}} -p ${{secrets.DOCKERHUB_SECRET}}
     - name: push image
       run: |
-        docker push $DOCKER_USER/fs_backend
+        docker push ${{secrets.DOCKERHUB_USERNAME}}/fs_backend
