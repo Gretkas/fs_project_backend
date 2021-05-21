@@ -78,6 +78,6 @@ CI Pipeline kjører Maven Verify. Maven Verify kjører alle tester som finnes i 
 Sikkerhetsmodulen i prosjektet har to tester som begge kobler seg til APIet. Her verifiseres det at en ikke-innlogget bruker ikke får tilgang, og motsatt.
 
 
-### Service & Controller:
+### Service:
 
 Testes ved hjelp av integrasjonstester. Metodene for laget under blir mocket. Deretter sjekkes det at returverdien er lik verdien vi forventer å få tilbake.
