@@ -13,6 +13,10 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.util.List;
 
+
+/**
+ * The type Section dto. Contains relevant information about a section.
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

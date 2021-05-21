@@ -1,4 +1,4 @@
-package fs_project.mapping.dto;
+package fs_project.mapping.dto.users;
 
 import fs_project.model.dataEntity.User;
 import lombok.AllArgsConstructor;
@@ -10,6 +10,9 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
 
+/**
+ * The type User response model. Used to get information on a specific user.
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -28,6 +31,11 @@ public class UserResponseModel {
     private long id;
 
 
+    /**
+     * Instantiates a new User response model.
+     *
+     * @param user the user
+     */
     public UserResponseModel(User user) {
         this.userName = user.getUserName();
         this.role = user.getRole();

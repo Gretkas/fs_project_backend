@@ -1,6 +1,16 @@
 package fs_project.model.Attributes;
 
+
+/**
+ * The enum Reservation type.
+ */
 public enum ReservationType {
-            RESERVATION,
-            MAINTENANCE
+    /**
+     * Reservation reservation type.
+     */
+    RESERVATION,
+    /**
+     * Maintenance reservation type.
+     */
+    MAINTENANCE
 };

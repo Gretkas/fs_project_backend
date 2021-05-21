@@ -1,11 +1,9 @@
-package fs_project.mapping.dto;
+package fs_project.mapping.dto.reservations;
 
 import fs_project.model.Attributes.ReservationType;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.Valid;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotEmpty;
@@ -13,10 +11,13 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
 
+
+/**
+ * The type Reservation post request model. Used to create reservations.
+ */
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
-public class ReservationRequestDto {
+public class ReservationPostRequestModel {
 
     @NotNull
     @FutureOrPresent
@@ -27,21 +28,22 @@ public class ReservationRequestDto {
     private LocalDateTime endTime;
 
     @NotNull
-    private String title;
-
-    @NotNull
     @NotEmpty
-    private List<SingleItemDTO> items;
+    private List<ItemReservationDto> items;
 
     @NotNull
     private ReservationType type;
+  
+    @NotNull
+    private String title;
 
-
-
+    /**
+     * Is valid date range boolean.
+     *
+     * @return the boolean
+     */
     @AssertTrue
-    private boolean isValidDateRange() {
-        return startTime != null &&
-                endTime != null &&
-                startTime.isBefore(endTime);
+    final public boolean isValidDateRange() {
+        return startTime.isBefore(endTime);
     }
 }
