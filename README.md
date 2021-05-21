@@ -99,4 +99,3 @@ Testes ved hjelp av integrasjonstester. Metodene for laget under blir mocket. De
 - Utvide søk og filtrering for reservasjoner og rom, samt legge til søk og filtrering av brukere
 - Ferdigstille produksjonsmiljø
 - Statistikk for reservasjoner
-- 
