@@ -41,9 +41,11 @@ public class RoomController {
     }
 
 
-    @PutMapping(value="", produces = APPLICATION_JSON_VALUE)
-    public ResponseEntity<RoomDTO> putRoom(@RequestBody @Valid RoomDTO room){
-        return ResponseEntity.ok(roomService.updateRoom(room));
+    @PutMapping(value="/{id}", produces = APPLICATION_JSON_VALUE)
+    public ResponseEntity<RoomDTO> putRoom
+            (@RequestBody @Valid RoomDTO room,
+             @PathVariable Long id){
+        return ResponseEntity.ok(roomService.updateRoom(id, room));
     }
     @PostMapping(value="", produces = APPLICATION_JSON_VALUE)
     public ResponseEntity<RoomDTO> postRoom(@RequestBody @Valid RoomDTO room){

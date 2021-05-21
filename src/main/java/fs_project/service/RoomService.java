@@ -4,6 +4,7 @@ import fs_project.mapping.dto.RoomDTO;
 import fs_project.mapping.room.RoomMapper;
 import fs_project.model.dataEntity.Item;
 import fs_project.model.dataEntity.Room;
+import fs_project.model.dataEntity.User;
 import fs_project.model.filter.RoomFilter;
 import fs_project.model.filter.RoomPage;
 import fs_project.model.filter.RoomSearchCriteria;
@@ -12,7 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -45,14 +49,20 @@ public class RoomService {
         return roomDTO;
     }
 
-    public RoomDTO updateRoom(RoomDTO roomDTO) {
+    public RoomDTO updateRoom(@NotNull Long id, @NotNull @Valid RoomDTO roomDTO) {
         Room room = roomMapper.roomDTOToRoom(roomDTO);
+        @Valid @NotNull Room currentRoom = Optional.of(roomRepo.findRoomById(id).get()).orElse(null);
+        if (currentRoom != null) {
+            room.setId(currentRoom.getId());
+        }
         itemRepo.saveAll(room.getItems());
         if(room.getSections() != null && room.getSections().size() > 0){
             sectionRepo.saveAll(room.getSections());
         }
-        roomRepo.save(room);
-        return roomDTO;
+        room = roomRepo.save(room);
+        RoomDTO response = roomMapper.roomToRoomDTO(room);
+
+        return response;
     }
 
     public boolean deleteRoom(long id) {

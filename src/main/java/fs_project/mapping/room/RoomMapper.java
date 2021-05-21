@@ -23,8 +23,8 @@ import java.util.List;
 )
 public interface RoomMapper {
 
+    RoomDTO roomToRoomDTO(Room room);
 
-    public abstract RoomDTO roomToRoomDTO(Room room);
     default Page<RoomDTO> roomPageToRoomDTOPage(Page<Room> rooms){
         return rooms.map(this::roomToRoomDTO);
     };
@@ -33,5 +33,6 @@ public interface RoomMapper {
     @Mapping(target = "id", source = ".")
     public abstract Room roomIdToRoom(Long roomId);
 
+    @Mapping(target = "id", ignore = true)
     Room roomDTOToRoom(RoomDTO roomDTO);
 }
