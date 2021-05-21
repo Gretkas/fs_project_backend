@@ -34,6 +34,9 @@ public abstract class ReservationResponse {
     @NotNull
     private UserDescription user;
 
+    @NotNull
+    private Long id;
+
 //    @NotNull
     private String roomName;
 

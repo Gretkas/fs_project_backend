@@ -24,7 +24,6 @@ public class User implements UserDetails {
     @Column(name = "user_id")
     private Long id;
 
-
     @Column(name = "user_name")
     private String userName;
     private String password;
@@ -171,6 +170,16 @@ public class User implements UserDetails {
      */
     public String getFirstName() {
         return firstName;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        User user = (User) o;
+
+        return id != null ? id.equals(user.id) : user.id == null;
     }
 
     /**

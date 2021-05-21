@@ -80,3 +80,4 @@ public interface ReservationRepo extends JpaRepository<Reservation, Long> {
             (LocalDateTime maintenanceStart, LocalDateTime maintenanceEnd,
              Long affectedBy, List<Item> items);
 }
+

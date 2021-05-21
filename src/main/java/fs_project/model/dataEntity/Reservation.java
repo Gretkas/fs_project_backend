@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -22,6 +23,8 @@ public class Reservation {
     @Column(name = "reservation_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+
     @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     private User user;
